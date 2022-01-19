@@ -1,0 +1,18 @@
+.header {
+    margin: 0;
+    padding: 0;
+    background-color: gray;
+    height: 50px;
+    &-inner{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+    }
+    &-logo {
+        max-width: 55px;
+        font-size: 55px;
+        & svg {
+        }
+    }
+}

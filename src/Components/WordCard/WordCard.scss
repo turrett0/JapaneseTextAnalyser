@@ -1,0 +1,16 @@
+.word__card {
+  border: 2px solid transparent;
+  border-radius: 10px;
+  width: 300px;
+  height: 150px;
+  display: flex;
+  margin-left: 30px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: -1px 4px 27px -8px rgba(34, 60, 80, 0.19);
+  font-family: "Open Sans", sans-serif;
+  font-family: "Ubuntu", sans-serif;
+  font-size: 18px;
+  line-height: 2em;
+}

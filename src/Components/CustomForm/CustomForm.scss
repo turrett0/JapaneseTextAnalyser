@@ -1,0 +1,35 @@
+.search__input {
+    width: 100%;
+    font-size: 16px;
+    padding: 10px 5px;
+    border: none;
+    outline: none;
+    background: none;
+    &-wrapper {
+        border: 2px solid black;
+        border-radius: 10px;
+        display: flex;
+        width: 500px;
+        & form {
+            display: flex;
+            width: 100%;
+        }
+    }
+    &-button, &-cancel {
+      font-size: 20px;
+      border: none;
+      outline: none;
+      background: none;
+      cursor: pointer;
+      width: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+}
+
+.search-component {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+}

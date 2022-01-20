@@ -1,14 +1,25 @@
-import React from "react";
+import {useContext} from "react";
+import SearchContext from "../../Context/SearchContext/SearchContext";
 import "./CustomSelect.scss";
 
 function CustomSelect() {
-  return (
+
+  const {searchSelectHandler} = useContext(SearchContext);
+
+  const selectHandler=(e)=>{
+    console.log(e.target.value)
+  }
+
+
+
+   return (
     <div className="filter-select">
-      <select name="filter-words" className="filter-select">
-        <option value="default">Default</option>
-        <option value="noun">名詞</option>
-        <option value="verb">動詞</option>
-        <option value="adjective">形容詞</option>
+      <select name="filter-words" className="filter-select" onChange={(e)=> searchSelectHandler(e.target.value)}>
+        <option value="default">default</option>
+        <option value="名詞">noun</option>
+        <option value="動詞">verb</option>
+        <option value="形容詞">adjective</option>
+        <option value="福祉">adverb</option>
       </select>
     </div>
   );

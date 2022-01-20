@@ -5,12 +5,12 @@ import WordCard from "../WordCard/WordCard";
 import { v4 as uuidv4 } from "uuid";
 
 function Card() {
-  const { kuromojiResponse } = useContext(SearchContext);
+  const { filteredWords } = useContext(SearchContext);
 
   return (
     <div className="container">
       <div className="word-cards-wrapper">
-        {kuromojiResponse.map((cardData) => (
+        {filteredWords.map((cardData) => (
           <WordCard key={uuidv4()} cardData={cardData} />
         ))}
       </div>

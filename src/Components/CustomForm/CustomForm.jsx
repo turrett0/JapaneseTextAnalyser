@@ -1,13 +1,13 @@
 import React from "react";
 import "./CustomForm.scss";
-import { useRef, useState, useContext } from "react";
+import { useRef, useContext } from "react";
 import SearchContext from "../../Context/SearchContext/SearchContext";
 import { AiOutlineSearch as SearchIcon } from "react-icons/ai";
 import { MdOutlineCancel as CancelIcon } from "react-icons/md";
 import CustomSelect from "../CustomSelect/CustomSelect";
 
 function CustomForm() {
-  const { kuromojiDBrequest } = useContext(SearchContext);
+  const { kuromojiDBrequest, filteredWords } = useContext(SearchContext);
   const inputRef = useRef();
 
   const handleSubmit = (e) => {
@@ -38,7 +38,7 @@ function CustomForm() {
           <CancelIcon />
         </button>
       </div>
-      <CustomSelect/>
+      <CustomSelect />
     </div>
   );
 }

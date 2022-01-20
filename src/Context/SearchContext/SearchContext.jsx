@@ -8,50 +8,57 @@ export function SearchProvider({ children }) {
   const [filteredWords, setfilteredWords] = useState([]);
 
   useEffect(() => {
-    setfilteredWords(
-      kuromojiResponse.map((word) => {
-        return word.pos === "動詞"
-          ? { ...word, reading: setDefaultConjugation(word) }
-          : word;
-      })
-    );
-    // console.log(filteredWords.filter((item)=> typeof(item.reading)) == 'function')
+    setfilteredWords(kuromojiResponse);
   }, [kuromojiResponse]);
 
   const kuromojiDBrequest = (word) => {
     getTokenizer();
     tokenize(word).then((tokens) => {
-      setkuromojiResponse(() =>
-        tokens.filter((item) => {
+      kuromojiFilterHandler(tokens);
+    });
+  };
+
+  const kuromojiFilterHandler = (kuromojiResponse) => {
+    setkuromojiResponse(() =>
+      kuromojiResponse
+        .filter((item) => {
           return (
             item.pos !== "記号" &&
             item.pos !== "助詞" &&
             item.pos !== "助動詞" &&
             item.pos_detail_1 !== "接尾" &&
             item.pos_detail_1 !== "非自立" &&
+            item.conjugated_type !== "一段" && //remove after fix!!!
             item.basic_form !== "*"
           );
         })
-      );
-    });
+        .map((word) => {
+          return word.pos === "動詞"
+            ? { ...word, reading: setDefaultConjugation(word) }
+            : word;
+        })
+    );
   };
 
-  const wordsFilterHandler = (kuromojiResponse) => {
-    //Move all statements from kuromojiDBrequest's filter function
-  };
+  //Work with Selector
 
   const searchSelectHandler = (statement) => {
     setfilteredWords(() =>
-      filteredWords.filter((word, _, array) => {
+      kuromojiResponse.filter((word, _, array) => {
         return statement == "default" ? array : word.pos == statement;
       })
     );
   };
 
+  //Works with wrong conjugation at reading column
+
   const setDefaultConjugation = (word) => {
     const { conjugated_type, pos } = word;
 
     switch (true) {
+      case conjugated_type.includes("サ変・スル"):
+        return "";
+        break;
       case conjugated_type.includes("五段・ガ行"):
         return setFilteredWordsHandler("グ", word);
         break;
@@ -91,7 +98,6 @@ export function SearchProvider({ children }) {
     <SearchContext.Provider
       value={{
         kuromojiDBrequest,
-        wordsFilterHandler,
         searchSelectHandler,
         filteredWords,
         kuromojiResponse,

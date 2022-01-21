@@ -2,7 +2,8 @@
 import './App.css';
 import { SearchProvider } from './Context/SearchContext/SearchContext'
 import CustomForm from './Components/CustomForm/CustomForm';
-import Card from './Components/WordCards/WordCards';
+import WordCards from './Components/WordCards/WordCards';
+import Header from './Components/Header/Header'
 
 
 
@@ -14,12 +15,15 @@ function App() {
 
   return (
     <SearchProvider>
-      {/* <Header /> */}
+      <Header />
       <div className="App">
         <div className="container">
-          <h1>JAPANESE TEXT ANALYSIER</h1>
-          <CustomForm />
-          <Card />
+          <section className="main">
+            <div className="main-inner">
+              <CustomForm />
+          <WordCards />
+            </div>
+          </section>
         </div>
       </div>
     </SearchProvider>

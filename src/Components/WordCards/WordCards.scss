@@ -1,7 +1,9 @@
-.word-cards-wrapper{
-    margin-top: 50px;
+.main-output__inner {
+    padding-top: 10px;
     display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
     flex-wrap: wrap;
-}
+    justify-content: center;
+    align-items: center;
+    overflow: scroll;
+    height: 600px;
+  }

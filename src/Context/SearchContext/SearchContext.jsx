@@ -9,7 +9,7 @@ export function SearchProvider({ children }) {
 
   useEffect(() => {
     setfilteredWords(kuromojiResponse);
-    console.log(kuromojiResponse.filter((item)=> typeof(item.reading)== 'function') )
+    // console.log(kuromojiResponse.filter((item)=> typeof(item.reading)== 'function') )
   }, [kuromojiResponse]);
 
   const kuromojiDBrequest = (word) => {

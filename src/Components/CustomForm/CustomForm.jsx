@@ -11,40 +11,60 @@ function CustomForm() {
   const inputRef = useRef();
 
   const handleSubmit = (e) => {
-    inputRef.current.value == "" && alert("Please, type something...");
     e.preventDefault();
+    // inputRef.current.value == "" && alert("Please, type something...");
     kuromojiDBrequest(inputRef.current.value);
   };
 
   return (
-    <div className="search-component">
-      <div className="search__input-wrapper">
-        <form onSubmit={handleSubmit}>
-          <button className="search__input-button" type="submit">
-            <SearchIcon />
-          </button>
-          <textarea
-            // oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'
-            onKeyDown={(event) => event.key == "Enter" && false}
-            placeholder="Search..."
-            className="search__input"
-            type="text"
-            name="SearchInput"
-            ref={inputRef}
-            style={{"resize": 'vertical','maxHeight': '250px', 'minHeight': '250px'}}
-          />
-        </form>
-        <button
-          className="search__input-cancel"
-          onClick={() => (inputRef.current.value = "")}
-        >
-          <CancelIcon />
-        </button>
-      </div>
-      <CustomSelect />
-      {filteredWords.length}
+    <div className="main-input">
+      <form >
+        <textarea
+        onChange={handleSubmit}
+        ref={inputRef}
+          name="submitTextArea"
+          id="text"
+          placeholder="Search..."
+          className="search__input"
+          type="text"
+          name="SearchInput"
+        ></textarea>
+      </form>
+      <div className="main-input__info">Length: {filteredWords.length} words</div>
     </div>
+    // <div className="search-component">
+    //   <div className="search__input-wrapper">
+    //     <form onSubmit={handleSubmit}>
+    //       <button className="search__input-button" type="submit">
+    //         <SearchIcon />
+    //       </button>
+    //       <textarea
+    //         // oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'
+    //         onKeyDown={(event) => event.key == "Enter" && false}
+    //         placeholder="Search..."
+    //         className="search__input"
+    //         type="text"
+    //         name="SearchInput"
+    //         ref={inputRef}
+    //         style={{
+    //           resize: "vertical",
+    //           maxHeight: "250px",
+    //           minHeight: "250px",
+    //         }}
+    //       />
+    //     </form>
+    //     <button
+    //       className="search__input-cancel"
+    //       onClick={() => (inputRef.current.value = "")}
+    //     >
+    //       <CancelIcon />
+    //     </button>
+    //   </div>
+    //   <CustomSelect />
+    //   {filteredWords.length}
+    // </div>
   );
 }
+
 
 export default CustomForm;

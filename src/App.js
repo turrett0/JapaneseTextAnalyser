@@ -16,11 +16,11 @@ function App() {
     <SearchProvider>
       {/* <Header /> */}
       <div className="App">
-<div className="container">
-        <h1>Kuromoji</h1>
-        <CustomForm />
-        <Card />
-</div>
+        <div className="container">
+          <h1>JAPANESE TEXT ANALYSIER</h1>
+          <CustomForm />
+          <Card />
+        </div>
       </div>
     </SearchProvider>
   );

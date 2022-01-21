@@ -23,12 +23,15 @@ function CustomForm() {
           <button className="search__input-button" type="submit">
             <SearchIcon />
           </button>
-          <input
+          <textarea
+            // oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'
+            onKeyDown={(event) => event.key == "Enter" && false}
             placeholder="Search..."
             className="search__input"
             type="text"
             name="SearchInput"
             ref={inputRef}
+            style={{"resize": 'vertical','maxHeight': '250px', 'minHeight': '250px'}}
           />
         </form>
         <button
@@ -39,6 +42,7 @@ function CustomForm() {
         </button>
       </div>
       <CustomSelect />
+      {filteredWords.length}
     </div>
   );
 }

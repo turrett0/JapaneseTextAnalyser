@@ -9,6 +9,7 @@ export function SearchProvider({ children }) {
 
   useEffect(() => {
     setfilteredWords(kuromojiResponse);
+    console.log(kuromojiResponse.filter((item)=> typeof(item.reading)== 'function') )
   }, [kuromojiResponse]);
 
   const kuromojiDBrequest = (word) => {
@@ -60,34 +61,34 @@ export function SearchProvider({ children }) {
         return "";
         break;
       case conjugated_type.includes("五段・ガ行"):
-        return setFilteredWordsHandler("グ", word);
+        return word.reading.substring(0, word.reading.length - 1) + "グ";
         break;
       case conjugated_type.includes("五段・カ行"):
-        return setFilteredWordsHandler("ク", word);
+        return word.reading.substring(0, word.reading.length - 1) + "ク";
         break;
       case conjugated_type.includes("五段・サ行"):
-        return setFilteredWordsHandler("ス", word);
+        return word.reading.substring(0, word.reading.length - 1) + "ス";
         break;
       case conjugated_type.includes("五段・タ行"):
-        return setFilteredWordsHandler("ツ", word);
+        return word.reading.substring(0, word.reading.length - 1) + "ツ";
         break;
       case conjugated_type.includes("五段・ナ行"):
-        return setFilteredWordsHandler("ヌ", word);
+        return word.reading.substring(0, word.reading.length - 1) + "ヌ";
         break;
       case conjugated_type.includes("五段・バ行"):
-        return setFilteredWordsHandler("ブ", word);
+        return word.reading.substring(0, word.reading.length - 1) + "ブ";
         break;
       case conjugated_type.includes("五段・マ行"):
-        return setFilteredWordsHandler("ム", word);
+        return word.reading.substring(0, word.reading.length - 1) + "ム";
         break;
       case conjugated_type.includes("五段・ラ行"):
-        return setFilteredWordsHandler("ル", word);
+        return word.reading.substring(0, word.reading.length - 1) + "ル";
         break;
       case conjugated_type.includes("五段・ワ行"):
-        return setFilteredWordsHandler("ウ", word);
+        return word.reading.substring(0, word.reading.length - 1) + "ウ";
         break;
       default:
-        return () => console.log("def");
+        return () => console.log("nothing was found");
     }
   };
 
@@ -112,3 +113,5 @@ export default SearchContext;
 
 //変接続 не работают
 // Пофиксить 一段動詞
+//カ変・クル
+//サ変・−スル

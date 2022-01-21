@@ -2,26 +2,29 @@ import React from "react";
 import "./CustomForm.scss";
 import { useRef, useContext } from "react";
 import SearchContext from "../../Context/SearchContext/SearchContext";
-import { AiOutlineSearch as SearchIcon } from "react-icons/ai";
 import { MdOutlineCancel as CancelIcon } from "react-icons/md";
 import CustomSelect from "../CustomSelect/CustomSelect";
+import debounce from "lodash.debounce";
+import {ReactComponent as Spinner} from '../../assets/spinner.gif'
 
 function CustomForm() {
-  const { kuromojiDBrequest, filteredWords } = useContext(SearchContext);
+  const { kuromojiDBrequest, filteredWords,loading,setLoading } = useContext(SearchContext);
   const inputRef = useRef();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // inputRef.current.value == "" && alert("Please, type something...");
     kuromojiDBrequest(inputRef.current.value);
   };
 
+  const debouncedCallback = debounce(handleSubmit, 500);
+
   return (
     <div className="main-input">
-      <form >
+      <form>
+        <CancelIcon className="cancelButton" onClick={()=> inputRef.current.value = ''} />
         <textarea
-        onChange={handleSubmit}
-        ref={inputRef}
+          onChange={(e)=> {debouncedCallback(e); setLoading(true)}}
+          ref={inputRef}
           name="submitTextArea"
           id="text"
           placeholder="Search..."
@@ -30,41 +33,11 @@ function CustomForm() {
           name="SearchInput"
         ></textarea>
       </form>
-      <div className="main-input__info">Length: {filteredWords.length} words</div>
+      <div className="main-input__info">
+        Length: {filteredWords.length} words
+      </div>
     </div>
-    // <div className="search-component">
-    //   <div className="search__input-wrapper">
-    //     <form onSubmit={handleSubmit}>
-    //       <button className="search__input-button" type="submit">
-    //         <SearchIcon />
-    //       </button>
-    //       <textarea
-    //         // oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'
-    //         onKeyDown={(event) => event.key == "Enter" && false}
-    //         placeholder="Search..."
-    //         className="search__input"
-    //         type="text"
-    //         name="SearchInput"
-    //         ref={inputRef}
-    //         style={{
-    //           resize: "vertical",
-    //           maxHeight: "250px",
-    //           minHeight: "250px",
-    //         }}
-    //       />
-    //     </form>
-    //     <button
-    //       className="search__input-cancel"
-    //       onClick={() => (inputRef.current.value = "")}
-    //     >
-    //       <CancelIcon />
-    //     </button>
-    //   </div>
-    //   <CustomSelect />
-    //   {filteredWords.length}
-    // </div>
   );
 }
-
 
 export default CustomForm;

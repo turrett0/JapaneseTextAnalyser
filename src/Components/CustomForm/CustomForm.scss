@@ -19,10 +19,10 @@
   }
   
   .main-input textarea {
-    padding: 15px 20px;
+    padding: 15px 40px 15px 20px;
     resize: none;
     width: 100%;
-    height: 90%;
+    height: 98%;
     border: none;
     outline: none;
   }
@@ -31,4 +31,12 @@
   .main-input__info {
     position: absolute;
     left: 20px;
+  }
+
+  .cancelButton {
+    position: absolute;
+    right: 5px;
+    top: 15px;
+    font-size: 20px;
+    cursor: pointer;
   }

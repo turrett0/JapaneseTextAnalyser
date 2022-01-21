@@ -1,11 +1,13 @@
 import { createContext, useEffect, useState } from "react";
 import { tokenize, getTokenizer } from "kuromojin";
+import data from "../../warodaiDB.js";
 
 const SearchContext = createContext();
 
 export function SearchProvider({ children }) {
   const [kuromojiResponse, setkuromojiResponse] = useState([]);
   const [filteredWords, setfilteredWords] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setfilteredWords(kuromojiResponse);
@@ -20,6 +22,7 @@ export function SearchProvider({ children }) {
   };
 
   const kuromojiFilterHandler = (kuromojiResponse) => {
+ 
     setkuromojiResponse(() =>
       kuromojiResponse
         .filter((item) => {
@@ -35,10 +38,23 @@ export function SearchProvider({ children }) {
         })
         .map((word) => {
           return word.pos === "動詞"
-            ? { ...word, reading: setDefaultConjugation(word) }
-            : word;
+            ? {
+                ...word,
+                reading: setDefaultConjugation(word),
+                meaning: getDetailedInfo(word),
+              }
+            : { ...word, meaning: getDetailedInfo(word) };
         })
     );
+  };
+
+  const getDetailedInfo = (word) => {
+    try {
+      const d = data.filter((dataItem) => dataItem[0] == word.basic_form)[0][2];
+      return `${d[0] ? d[0] : ""}  ${d[1] ? " / " + d[1] : ""}`;
+    } catch (err) {
+      return false;
+    }
   };
 
   //Work with Selector
@@ -92,9 +108,6 @@ export function SearchProvider({ children }) {
     }
   };
 
-  const setFilteredWordsHandler = (ending, word) =>
-    word.reading.substring(0, word.reading.length - 1) + ending;
-
   return (
     <SearchContext.Provider
       value={{
@@ -102,6 +115,8 @@ export function SearchProvider({ children }) {
         searchSelectHandler,
         filteredWords,
         kuromojiResponse,
+        loading,
+        setLoading,
       }}
     >
       {children}

@@ -3,7 +3,9 @@ import './App.css';
 import { SearchProvider } from './Context/SearchContext/SearchContext'
 import CustomForm from './Components/CustomForm/CustomForm';
 import WordCards from './Components/WordCards/WordCards';
-import Header from './Components/Header/Header'
+import Header from './Components/Header/Header';
+import WordModal from './Components/WodrModal/WordModal';
+import {WordModalProvider} from './Context/WordModalContext/WordModalContext';
 
 
 
@@ -15,6 +17,8 @@ function App() {
 
   return (
     <SearchProvider>
+      <WordModalProvider>
+      <WordModal/>
       <Header />
       <div className="App">
         <div className="container">
@@ -26,6 +30,7 @@ function App() {
           </section>
         </div>
       </div>
+      </WordModalProvider>
     </SearchProvider>
   );
 }

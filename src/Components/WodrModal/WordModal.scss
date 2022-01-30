@@ -1,0 +1,35 @@
+.wordModal {
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: rgba(black,.9);
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    cursor: pointer;
+    // display: none;
+
+    &-card {
+        width: 700px;
+        height: 70vh;
+        border: 2px solid black;
+        background: white;
+        border-radius: 15px;
+        cursor: default;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+    }
+    & p {
+        margin-top: 10px;
+        font-size: 25px;
+        text-align: center;
+        width: 60%;
+        margin-bottom: 20px;
+    }
+}

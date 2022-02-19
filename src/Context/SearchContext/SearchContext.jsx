@@ -20,75 +20,6 @@ export function SearchProvider({children}) {
     });
   };
 
-  let arr = [
-    {
-      word_id: 2591070,
-      word_type: "KNOWN",
-      word_position: 1,
-      surface_form: "日本語",
-      pos: "名詞",
-      pos_detail_1: "一般",
-      pos_detail_2: "*",
-      pos_detail_3: "*",
-      conjugated_type: "*",
-      conjugated_form: "*",
-      basic_form: "日本語",
-      reading: "ニホンゴ",
-      pronunciation: "ニホンゴ",
-      meaning: "японский язык  ",
-    },
-    {
-      word_id: 2591070,
-      word_type: "KNOWN",
-      word_position: 4,
-      surface_form: "日本語",
-      pos: "名詞",
-      pos_detail_1: "一般",
-      pos_detail_2: "*",
-      pos_detail_3: "*",
-      conjugated_type: "*",
-      conjugated_form: "*",
-      basic_form: "日本語",
-      reading: "ニホンゴ",
-      pronunciation: "ニホンゴ",
-      meaning: "японский язык  ",
-    },
-    {
-      word_id: 2591070,
-      word_type: "KNOWN",
-      word_position: 7,
-      surface_form: "日本語",
-      pos: "名詞",
-      pos_detail_1: "一般",
-      pos_detail_2: "*",
-      pos_detail_3: "*",
-      conjugated_type: "*",
-      conjugated_form: "*",
-      basic_form: "日本語",
-      reading: "ニホンゴ",
-      pronunciation: "ニホンゴ",
-      meaning: "японский язык  ",
-    },
-    {
-      word_id: 2591070,
-      word_type: "KNOWN",
-      word_position: 10,
-      surface_form: "日本語",
-      pos: "名詞",
-      pos_detail_1: "一般",
-      pos_detail_2: "*",
-      pos_detail_3: "*",
-      conjugated_type: "*",
-      conjugated_form: "*",
-      basic_form: "日本語",
-      reading: "ニホンゴ",
-      pronunciation: "ニホンゴ",
-      meaning: "японский язык  ",
-    },
-  ];
-
-  // console.log(filteredArr);
-
   const kuromojiFilterHandler = (kuromojiResponse) => {
     setkuromojiResponse(() =>
       kuromojiResponse
@@ -177,7 +108,7 @@ export function SearchProvider({children}) {
       case conjugated_type.includes("五段・ワ行"):
         return word.reading.substring(0, word.reading.length - 1) + "ウ";
       default:
-        return () => console.log("nothing was found");
+        return "";
     }
   };
 

@@ -1,17 +1,16 @@
-import { createContext, useEffect, useState } from "react";
-import { tokenize, getTokenizer } from "kuromojin";
+import {createContext, useEffect, useState} from "react";
+import {tokenize, getTokenizer} from "kuromojin";
 import data from "../../warodaiDB.js";
 
 const SearchContext = createContext();
 
-export function SearchProvider({ children }) {
+export function SearchProvider({children}) {
   const [kuromojiResponse, setkuromojiResponse] = useState([]);
   const [filteredWords, setfilteredWords] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setfilteredWords(kuromojiResponse);
-    console.log(kuromojiResponse.filter((item)=> typeof(item.reading)== 'function') )
   }, [kuromojiResponse]);
 
   const kuromojiDBrequest = (word) => {
@@ -21,8 +20,76 @@ export function SearchProvider({ children }) {
     });
   };
 
+  let arr = [
+    {
+      word_id: 2591070,
+      word_type: "KNOWN",
+      word_position: 1,
+      surface_form: "日本語",
+      pos: "名詞",
+      pos_detail_1: "一般",
+      pos_detail_2: "*",
+      pos_detail_3: "*",
+      conjugated_type: "*",
+      conjugated_form: "*",
+      basic_form: "日本語",
+      reading: "ニホンゴ",
+      pronunciation: "ニホンゴ",
+      meaning: "японский язык  ",
+    },
+    {
+      word_id: 2591070,
+      word_type: "KNOWN",
+      word_position: 4,
+      surface_form: "日本語",
+      pos: "名詞",
+      pos_detail_1: "一般",
+      pos_detail_2: "*",
+      pos_detail_3: "*",
+      conjugated_type: "*",
+      conjugated_form: "*",
+      basic_form: "日本語",
+      reading: "ニホンゴ",
+      pronunciation: "ニホンゴ",
+      meaning: "японский язык  ",
+    },
+    {
+      word_id: 2591070,
+      word_type: "KNOWN",
+      word_position: 7,
+      surface_form: "日本語",
+      pos: "名詞",
+      pos_detail_1: "一般",
+      pos_detail_2: "*",
+      pos_detail_3: "*",
+      conjugated_type: "*",
+      conjugated_form: "*",
+      basic_form: "日本語",
+      reading: "ニホンゴ",
+      pronunciation: "ニホンゴ",
+      meaning: "японский язык  ",
+    },
+    {
+      word_id: 2591070,
+      word_type: "KNOWN",
+      word_position: 10,
+      surface_form: "日本語",
+      pos: "名詞",
+      pos_detail_1: "一般",
+      pos_detail_2: "*",
+      pos_detail_3: "*",
+      conjugated_type: "*",
+      conjugated_form: "*",
+      basic_form: "日本語",
+      reading: "ニホンゴ",
+      pronunciation: "ニホンゴ",
+      meaning: "японский язык  ",
+    },
+  ];
+
+  // console.log(filteredArr);
+
   const kuromojiFilterHandler = (kuromojiResponse) => {
- 
     setkuromojiResponse(() =>
       kuromojiResponse
         .filter((item) => {
@@ -41,16 +108,32 @@ export function SearchProvider({ children }) {
             ? {
                 ...word,
                 reading: setDefaultConjugation(word),
-                meaning: getDetailedInfo(word),
+                meaning:
+                  getDetailedInfo(word) === false ? "" : getDetailedInfo(word),
               }
-            : { ...word, meaning: getDetailedInfo(word) };
+            : {
+                ...word,
+                meaning:
+                  getDetailedInfo(word) === false ? "" : getDetailedInfo(word),
+              };
         })
+        .reduce((acc, current) => {
+          console.log(current.word_id);
+          const x = acc.find((item) => item.word_id === current.word_id);
+          if (!x) {
+            return acc.concat([current]);
+          } else {
+            return acc;
+          }
+        }, [])
     );
   };
 
   const getDetailedInfo = (word) => {
     try {
-      const d = data.filter((dataItem) => dataItem[0] == word.basic_form)[0][2];
+      const d = data.filter(
+        (dataItem) => dataItem[0] === word.basic_form
+      )[0][2];
       return `${d[0] ? d[0] : ""}  ${d[1] ? " / " + d[1] : ""}`;
     } catch (err) {
       return false;
@@ -62,7 +145,7 @@ export function SearchProvider({ children }) {
   const searchSelectHandler = (statement) => {
     setfilteredWords(() =>
       kuromojiResponse.filter((word, _, array) => {
-        return statement == "default" ? array : word.pos == statement;
+        return statement === "default" ? array : word.pos === statement;
       })
     );
   };
@@ -70,39 +153,29 @@ export function SearchProvider({ children }) {
   //Works with wrong conjugation at reading column
 
   const setDefaultConjugation = (word) => {
-    const { conjugated_type, pos } = word;
+    const {conjugated_type} = word;
 
     switch (true) {
       case conjugated_type.includes("サ変・スル"):
         return "";
-        break;
       case conjugated_type.includes("五段・ガ行"):
         return word.reading.substring(0, word.reading.length - 1) + "グ";
-        break;
       case conjugated_type.includes("五段・カ行"):
         return word.reading.substring(0, word.reading.length - 1) + "ク";
-        break;
       case conjugated_type.includes("五段・サ行"):
         return word.reading.substring(0, word.reading.length - 1) + "ス";
-        break;
       case conjugated_type.includes("五段・タ行"):
         return word.reading.substring(0, word.reading.length - 1) + "ツ";
-        break;
       case conjugated_type.includes("五段・ナ行"):
         return word.reading.substring(0, word.reading.length - 1) + "ヌ";
-        break;
       case conjugated_type.includes("五段・バ行"):
         return word.reading.substring(0, word.reading.length - 1) + "ブ";
-        break;
       case conjugated_type.includes("五段・マ行"):
         return word.reading.substring(0, word.reading.length - 1) + "ム";
-        break;
       case conjugated_type.includes("五段・ラ行"):
         return word.reading.substring(0, word.reading.length - 1) + "ル";
-        break;
       case conjugated_type.includes("五段・ワ行"):
         return word.reading.substring(0, word.reading.length - 1) + "ウ";
-        break;
       default:
         return () => console.log("nothing was found");
     }

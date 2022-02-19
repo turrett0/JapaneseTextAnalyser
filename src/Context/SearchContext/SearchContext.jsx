@@ -49,7 +49,6 @@ export function SearchProvider({children}) {
               };
         })
         .reduce((acc, current) => {
-          console.log(current.word_id);
           const x = acc.find((item) => item.word_id === current.word_id);
           if (!x) {
             return acc.concat([current]);
@@ -74,6 +73,7 @@ export function SearchProvider({children}) {
   //Work with Selector
 
   const searchSelectHandler = (statement) => {
+    console.log(statement);
     setfilteredWords(() =>
       kuromojiResponse.filter((word, _, array) => {
         return statement === "default" ? array : word.pos === statement;
@@ -87,8 +87,6 @@ export function SearchProvider({children}) {
     const {conjugated_type} = word;
 
     switch (true) {
-      case conjugated_type.includes("サ変・スル"):
-        return "";
       case conjugated_type.includes("五段・ガ行"):
         return word.reading.substring(0, word.reading.length - 1) + "グ";
       case conjugated_type.includes("五段・カ行"):
@@ -107,6 +105,10 @@ export function SearchProvider({children}) {
         return word.reading.substring(0, word.reading.length - 1) + "ル";
       case conjugated_type.includes("五段・ワ行"):
         return word.reading.substring(0, word.reading.length - 1) + "ウ";
+      case conjugated_type.includes("サ変・スル"):
+        return "する";
+      case conjugated_type.includes("カ変・クル"):
+        return "くる";
       default:
         return "";
     }
@@ -133,5 +135,3 @@ export default SearchContext;
 
 //変接続 не работают
 // Пофиксить 一段動詞
-//カ変・クル
-//サ変・−スル

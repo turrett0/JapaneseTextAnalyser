@@ -2,7 +2,7 @@
   "name": "jisho",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://turrett0.github.io",
+  "homepage": "https://turrett0.github.io/JapaneseTextAnalyser",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",

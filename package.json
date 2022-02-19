@@ -1,59 +1,24 @@
 {
-  "name": "jisho",
-  "version": "0.1.0",
-  "private": true,
-  "homepage": "https://turrett0.github.io",
-  "dependencies": {
-    "@testing-library/jest-dom": "^5.16.1",
-    "@testing-library/react": "^12.1.2",
-    "@testing-library/user-event": "^13.5.0",
-    "axios": "^0.25.0",
-    "concurrently": "^7.0.0",
-    "http-proxy-middleware": "^2.0.1",
-    "i": "^0.3.7",
-    "json-server": "^0.17.0",
-    "kuromojin": "^3.0.0",
-    "lodash.debounce": "^4.0.8",
-    "npm": "^8.3.2",
-    "path-browserify": "^1.0.1",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-icons": "^4.3.1",
-    "react-scripts": "5.0.0",
-    "sass": "^1.49.0",
-    "unofficial-jisho-api": "^2.2.2",
-    "web-vitals": "^2.1.3"
-  },
+  "name": "japanesetextanalyser",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "server": "json-server --watch db.json --port 5000",
-    "dev": "concurrently \"npm run server\" \"npm start\"",
+    "test": "echo \"Error: no test specified\" && exit 1",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
-  "proxy": "http://jisho.org/api",
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/turrett0/JapaneseTextAnalyser.git"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/turrett0/JapaneseTextAnalyser/issues"
   },
-  "devDependencies": {
+  "homepage": "https://turrett0.github.io/JapaneseTextAnalyser/",
+  "dependencies": {
     "gh-pages": "^3.2.3"
   }
 }

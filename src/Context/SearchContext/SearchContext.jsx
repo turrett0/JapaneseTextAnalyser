@@ -1,79 +1,129 @@
 import {createContext, useEffect, useState} from "react";
 import {tokenize, getTokenizer} from "kuromojin";
-import data from "../../warodaiDB.js";
+import axios from "axios";
 
 const SearchContext = createContext();
 
 export function SearchProvider({children}) {
   const [kuromojiResponse, setkuromojiResponse] = useState([]);
   const [filteredWords, setfilteredWords] = useState([]);
+  const [test, setTest] = useState([]);
   const [loading, setLoading] = useState(false);
+  const arr = [];
 
   useEffect(() => {
+    // getDetailedInfo("da");
     setfilteredWords(kuromojiResponse);
   }, [kuromojiResponse]);
 
   const kuromojiDBrequest = (word) => {
+    console.log(word.length);
+    if (word.length === 0) {
+      setkuromojiResponse([]);
+    }
     getTokenizer();
     tokenize(word).then((tokens) => {
       kuromojiFilterHandler(tokens);
     });
   };
 
-  const kuromojiFilterHandler = (kuromojiResponse) => {
-    setkuromojiResponse(() =>
-      kuromojiResponse
-        .filter((item) => {
-          return (
-            item.pos !== "記号" &&
-            item.pos !== "助詞" &&
-            item.pos !== "助動詞" &&
-            item.pos_detail_1 !== "接尾" &&
-            item.pos_detail_1 !== "非自立" &&
-            item.conjugated_type !== "一段" && //remove after fix!!!
-            item.basic_form !== "*"
-          );
-        })
-        .map((word) => {
-          return word.pos === "動詞"
-            ? {
-                ...word,
-                reading: setDefaultConjugation(word),
-                meaning:
-                  getDetailedInfo(word) === false ? "" : getDetailedInfo(word),
-              }
-            : {
-                ...word,
-                meaning:
-                  getDetailedInfo(word) === false ? "" : getDetailedInfo(word),
-              };
-        })
-        .reduce((acc, current) => {
-          const x = acc.find((item) => item.word_id === current.word_id);
-          if (!x) {
-            return acc.concat([current]);
-          } else {
-            return acc;
+  const kuromojiFilterHandler = (resp) => {
+    resp.forEach((word) => {
+      axios
+        .get(`http://localhost:5000/warodai?word=${word?.basic_form}`)
+        .then((data) => {
+          if (data.data.length === 0) {
+            setkuromojiResponse(() => {
+              return [...kuromojiResponse, word];
+            });
           }
-        }, [])
-    );
+          // if (data.data[0]) return;
+          if (data.data[0]?.meanings[0]) {
+            setkuromojiResponse(() => {
+              return [
+                ...kuromojiResponse,
+                {
+                  ...word,
+                  meaning: data.data[0].meanings[0],
+                },
+              ];
+            });
+          }
+        });
+    });
+    // setkuromojiResponse(() => {
+    //   return (
+    //     kuromojiResponse
+    //       .filter((item) => {
+    //         // getDetailedInfo(item);
+    //         return (
+    //           item.pos !== "記号" &&
+    //           item.pos !== "助詞" &&
+    //           item.pos !== "助動詞" &&
+    //           item.pos_detail_1 !== "接尾" &&
+    //           item.pos_detail_1 !== "非自立" &&
+    //           item.basic_form !== "*"
+    //         );
+    //       })
+    //       .map((word) => {
+    //         return word.pos === "動詞"
+    //           ? {
+    //               ...word,
+    //               reading: setDefaultConjugation(word),
+    //               meaning:
+    //                 getDetailedInfo(word) === false ? "" : getDetailedInfo(word),
+    //             }
+    //           : {
+    //               ...word,
+    //               meaning:
+    //                 getDetailedInfo(word) === false ? "" : getDetailedInfo(word),
+    //             };
+    //       })
+    //       .reduce((acc, current) => {
+    //         const x = acc.find((item) => item.word_id === current.word_id);
+    //         if (!x) {
+    //           return acc.concat([current]);
+    //         } else {
+    //           return acc;
+    //         }
+    //       }, [])
+    //   );
+    // });
   };
 
   const getDetailedInfo = (word) => {
-    try {
-      const d = data.filter(
-        (dataItem) => dataItem[0] === word.basic_form
-      )[0][2];
-      return `${d[0] ? d[0] : ""}  ${d[1] ? " / " + d[1] : ""}`;
-    } catch (err) {
-      return false;
-    }
+    console.log("call");
+    // console.log(word?.basic_form);
+    return axios
+      .get(`http://localhost:5000/warodai?word=${word?.basic_form}`)
+      .then((resp) => {
+        // console.log(resp);
+        // resp.forEach((word2) => {
+        //   setTest((prev) => {
+        //     return kuromojiResponse.map((kWord) => {
+        //       return {
+        //         ...kWord,
+        //         meaning: word2.data[0].meanings[0],
+        //       };
+        //     });
+        //   });
+        // console.log(word2);
+
+        // resp.forEach((item) => {
+
+        if (resp.data[0].meanings[0]) {
+          setTest((prev) => [
+            ...prev,
+            {...word, meaning: resp.data[0].meanings[0]},
+          ]);
+        }
+        // });
+      });
   };
 
   //Work with Selector
 
   const searchSelectHandler = (statement) => {
-    console.log(statement);
     setfilteredWords(() =>
       kuromojiResponse.filter((word, _, array) => {
         return statement === "default" ? array : word.pos === statement;
@@ -118,7 +168,7 @@ export function SearchProvider({children}) {
     <SearchContext.Provider
       value={{
         kuromojiDBrequest,
-        searchSelectHandler,
+        searchSelectHandler, //input (still not included in app)
         setfilteredWords,
         filteredWords,
         kuromojiResponse,
@@ -135,3 +185,4 @@ export default SearchContext;
 
 //変接続 не работают
 // Пофиксить 一段動詞
+//Не ищет 食べる

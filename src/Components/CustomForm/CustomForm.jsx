@@ -1,12 +1,12 @@
 import React from "react";
 import "./CustomForm.scss";
-import { useRef, useContext } from "react";
+import {useRef, useContext} from "react";
 import SearchContext from "../../Context/SearchContext/SearchContext";
-import { MdOutlineCancel as CancelIcon } from "react-icons/md";
+import {MdOutlineCancel as CancelIcon} from "react-icons/md";
 import CustomSelect from "../CustomSelect/CustomSelect";
 import debounce from "lodash.debounce";
-import { ReactComponent as Spinner } from "../../assets/spinner.gif";
-import { exportToCsv } from "../../csvExport";
+import {ReactComponent as Spinner} from "../../assets/spinner.gif";
+import {exportToCsv} from "../../csvExport";
 
 function CustomForm() {
   const {
@@ -32,7 +32,7 @@ function CustomForm() {
     kuromojiDBrequest(inputRef.current.value);
   };
 
-  const debouncedCallback = debounce(handleSubmit, 500);
+  const debouncedCallback = debounce(handleSubmit, 1000);
 
   return (
     <div className="main-input">
@@ -61,7 +61,7 @@ function CustomForm() {
         Length: {filteredWords.length} words
       </div>
       <button
-        style={{ padding: "10px 20px" }}
+        style={{padding: "10px 20px"}}
         onClick={() => exportToCsv("deck", csvPrepare())}
       >
         CSV

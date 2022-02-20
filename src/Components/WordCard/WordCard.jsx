@@ -1,17 +1,16 @@
 import "./WordCard.scss";
-import { useContext } from "react";
-import data from "../../warodaiDB.js";
-import WordModalContext from '../../Context/WordModalContext/WordModalContext';
+import {useContext} from "react";
+import WordModalContext from "../../Context/WordModalContext/WordModalContext";
 
-function WordCard({ cardData }) {
+function WordCard({cardData}) {
   const readingCheck =
     cardData.surface_form === cardData.reading || !cardData.reading;
 
-    const {setCurrentWord} = useContext(WordModalContext);
+  const {setCurrentWord} = useContext(WordModalContext);
 
-const onClickHandler = ()=>{
-  setCurrentWord(cardData)
-}
+  const onClickHandler = () => {
+    setCurrentWord(cardData);
+  };
 
   return (
     <div className="card" onClick={onClickHandler}>

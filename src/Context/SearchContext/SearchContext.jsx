@@ -7,21 +7,23 @@ const SearchContext = createContext();
 export function SearchProvider({children}) {
   const [kuromojiResponse, setkuromojiResponse] = useState([]);
   const [filteredWords, setfilteredWords] = useState([]);
-  const [test, setTest] = useState([]);
   const [loading, setLoading] = useState(false);
-  const arr = [];
-
-  // console.log(isHiragana("おかす"));
 
   useEffect(() => {
-    // getDetailedInfo("da");
-    setfilteredWords(kuromojiResponse);
+    console.log(filteredWords);
+    setfilteredWords(() => {
+      if (kuromojiResponse.length === 0) return [];
+      return [
+        ...new Map(
+          kuromojiResponse.map((item) => [item["word_id"], item])
+        ).values(),
+      ];
+    });
   }, [kuromojiResponse]);
 
   const kuromojiDBrequest = (word) => {
-    console.log(word.length);
     if (word.length === 0) {
-      setkuromojiResponse([]);
+      // setkuromojiResponse([]);
       return;
     }
     getTokenizer();
@@ -31,9 +33,9 @@ export function SearchProvider({children}) {
   };
 
   const kuromojiFilterHandler = (resp) => {
+    // console.log(resp);///
     resp
       .filter((item) => {
-        // getDetailedInfo(item);
         return (
           item.pos !== "記号" &&
           item.pos !== "助詞" &&
@@ -43,32 +45,7 @@ export function SearchProvider({children}) {
           item.basic_form !== "*"
         );
       })
-      // .map((word) => {
-      //   return word.pos === "動詞"
-      //     ? {
-      //         ...word,
-      //         reading: setDefaultConjugation(word),
-      //         meaning:
-      //           getDetailedInfo(word) === false ? "" : getDetailedInfo(word),
-      //       }
-      //     : {
-      //         ...word,
-      //         meaning:
-      //           getDetailedInfo(word) === false ? "" : getDetailedInfo(word),
-      //       };
-      // })
-      .reduce((acc, current) => {
-        const x = acc.find((item) => item.word_id === current.word_id);
-        if (!x) {
-          return acc.concat([current]);
-        } else {
-          return acc;
-        }
-      }, [])
-      .forEach((word) => {
-        const searchQuery = console.log(word.surface_form);
-        if (isHiragana(word.surface_form)) {
-        }
+      .map((word) => {
         axios
           .get(
             `http://localhost:5000/warodai${
@@ -78,53 +55,38 @@ export function SearchProvider({children}) {
             }`
           )
           .then((data) => {
-            if (data.data.length === 0) {
-              setkuromojiResponse(() => {
-                return [...kuromojiResponse, word];
-              });
-            }
-            // if (data.data[0]) return;
+            // if (data.data.length === 0) {
+            //   setkuromojiResponse(() => {
+            //     return resp;
+            //   });
+            // }
+
             if (data.data[0]?.meanings[0]) {
               setkuromojiResponse(() => {
-                return [
-                  ...kuromojiResponse,
-                  {
-                    ...word,
-                    meaning: data.data[0].meanings,
-                  },
-                ];
+                if (word.pos === "動詞") {
+                  return [
+                    ...kuromojiResponse,
+                    {
+                      ...word,
+                      reading: setDefaultConjugation(word),
+                      meaning: data.data[0].meanings,
+                    },
+                  ];
+                } else {
+                  return [
+                    ...kuromojiResponse,
+                    {
+                      ...word,
+                      meaning: data.data[0].meanings,
+                    },
+                  ];
+                }
               });
+            } else {
+              console.log("hui");
             }
           });
       });
-  };
-
-  const getDetailedInfo = (word) => {
-    // console.log("call");
-    // // console.log(word?.basic_form);
-    // return axios
-    //   .get(`http://localhost:5000/warodai?word=${word?.basic_form}`)
-    //   .then((resp) => {
-    //     // console.log(resp);
-    //     // resp.forEach((word2) => {
-    //     //   setTest((prev) => {
-    //     //     return kuromojiResponse.map((kWord) => {
-    //     //       return {
-    //     //         ...kWord,
-    //     //         meaning: word2.data[0].meanings[0],
-    //     //       };
-    //     //     });
-    //     //   });
-    //     // console.log(word2);
-    //     // resp.forEach((item) => {
-    //     if (resp.data[0].meanings[0]) {
-    //       setTest((prev) => [
-    //         ...prev,
-    //         {...word, meaning: resp.data[0].meanings[0]},
-    //       ]);
-    //     }
-    //     // });
-    //   });
   };
 
   //Work with Selector

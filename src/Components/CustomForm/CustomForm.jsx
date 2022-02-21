@@ -25,7 +25,7 @@ function CustomForm() {
     kuromojiDBrequest(inputRef.current.value);
   };
 
-  const debouncedCallback = debounce(handleSubmit, 1000);
+  const debouncedCallback = debounce(handleSubmit, 2000);
 
   return (
     <div className="main-input">

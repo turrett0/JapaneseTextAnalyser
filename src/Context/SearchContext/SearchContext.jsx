@@ -1,29 +1,17 @@
 import {createContext, useEffect, useState} from "react";
 import {tokenize, getTokenizer} from "kuromojin";
 import axios from "axios";
-import {isHiragana} from "wanakana";
+import {isHiragana, toHiragana} from "wanakana";
+import {isKatakana} from "wanakana";
 const SearchContext = createContext();
 
 export function SearchProvider({children}) {
   const [kuromojiResponse, setkuromojiResponse] = useState([]);
   const [filteredWords, setfilteredWords] = useState([]);
-  // const [test, setTest] = useState([]);
   const [loading, setLoading] = useState(false);
   const cancelTokenSource = axios.CancelToken.source();
-  const cancel = () => {
-    console.log("ok");
-    cancelTokenSource.cancel();
-  };
 
   useEffect(() => {
-    // setfilteredWords(() => {
-    //   if (kuromojiResponse.length === 0) return [];
-    //   return [
-    //     ...new Map(
-    //       kuromojiResponse.map((item) => [item["word_id"], item])
-    //     ).values(),
-    //   ];
-    // });
     setfilteredWords(kuromojiResponse);
   }, [kuromojiResponse]);
 
@@ -49,6 +37,9 @@ export function SearchProvider({children}) {
     });
 
     filtered.forEach((word) => {
+      console.log(
+        isKatakana(word.surface_form) && toHiragana(word.surface_form)
+      );
       try {
         axios
           .get(
@@ -62,24 +53,21 @@ export function SearchProvider({children}) {
             }
           )
           .then((data) => {
-            // if (data.data.length === 0) {
-            //   setkuromojiResponse(() => {
-            //     return resp;
-            //   });
-            // }
-
             setkuromojiResponse((prev) => {
-              if (data.data[0]?.meanings[0]) {
-                return [
-                  ...prev,
-                  {
-                    ...word,
-                    meaning: data.data[0].meanings,
-                  },
-                ];
-              } else {
-                return [...prev, word];
-              }
+              return [
+                ...prev,
+                {
+                  ...word,
+                  meaning: data.data[0]?.meanings || "",
+                  derivatives: data.data[0]?.derivatives || "",
+                  phrases: data.data[0]?.phrases || "",
+                  reading:
+                    setDefaultConjugation(
+                      toHiragana(word.reading),
+                      word.conjugated_type
+                    ) || toHiragana(word.reading),
+                },
+              ];
             });
           });
       } catch (error) {}
@@ -98,34 +86,35 @@ export function SearchProvider({children}) {
 
   //Works with wrong conjugation at reading column
 
-  const setDefaultConjugation = (word) => {
-    const {conjugated_type} = word;
-
+  const setDefaultConjugation = (word, conjugated_type) => {
     switch (true) {
       case conjugated_type.includes("五段・ガ行"):
-        return word.reading.substring(0, word.reading.length - 1) + "グ";
+        return conjugated_type.substring(0, word.length - 1) + "グ";
       case conjugated_type.includes("五段・カ行"):
-        return word.reading.substring(0, word.reading.length - 1) + "ク";
+        return word.substring(0, word.length - 1) + "ぐ";
       case conjugated_type.includes("五段・サ行"):
-        return word.reading.substring(0, word.reading.length - 1) + "ス";
+        return word.substring(0, word.length - 1) + "す";
       case conjugated_type.includes("五段・タ行"):
-        return word.reading.substring(0, word.reading.length - 1) + "ツ";
+        return word.substring(0, word.length - 1) + "つ";
       case conjugated_type.includes("五段・ナ行"):
-        return word.reading.substring(0, word.reading.length - 1) + "ヌ";
+        return word.substring(0, word.length - 1) + "ぬ";
       case conjugated_type.includes("五段・バ行"):
-        return word.reading.substring(0, word.reading.length - 1) + "ブ";
+        return word.substring(0, word.length - 1) + "ぶ";
       case conjugated_type.includes("五段・マ行"):
-        return word.reading.substring(0, word.reading.length - 1) + "ム";
+        return word.substring(0, word.length - 1) + "む";
       case conjugated_type.includes("五段・ラ行"):
-        return word.reading.substring(0, word.reading.length - 1) + "ル";
+        return word.substring(0, word.length - 1) + "る";
       case conjugated_type.includes("五段・ワ行"):
-        return word.reading.substring(0, word.reading.length - 1) + "ウ";
+        return word.substring(0, word.length - 1) + "う";
       case conjugated_type.includes("サ変・スル"):
         return "する";
       case conjugated_type.includes("カ変・クル"):
         return "くる";
+      //形容詞
+      case conjugated_type.includes("形容詞・イ段"):
+        return word.substring(0, word.length - 1) + "い";
       default:
-        return "";
+        return null;
     }
   };
 
@@ -139,7 +128,6 @@ export function SearchProvider({children}) {
         kuromojiResponse,
         loading,
         setLoading,
-        cancel,
       }}
     >
       {children}
@@ -150,5 +138,3 @@ export function SearchProvider({children}) {
 export default SearchContext;
 
 //変接続 не работают
-// Пофиксить 一段動詞
-//Не ищет 食べる

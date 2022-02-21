@@ -1,31 +1,35 @@
 import {createContext, useEffect, useState} from "react";
 import {tokenize, getTokenizer} from "kuromojin";
 import axios from "axios";
-import wanakana, {toHiragana, isHiragana} from "wanakana";
+import {isHiragana} from "wanakana";
 const SearchContext = createContext();
 
 export function SearchProvider({children}) {
   const [kuromojiResponse, setkuromojiResponse] = useState([]);
   const [filteredWords, setfilteredWords] = useState([]);
+  // const [test, setTest] = useState([]);
   const [loading, setLoading] = useState(false);
+  const cancelTokenSource = axios.CancelToken.source();
+  const cancel = () => {
+    console.log("ok");
+    cancelTokenSource.cancel();
+  };
 
   useEffect(() => {
-    console.log(filteredWords);
-    setfilteredWords(() => {
-      if (kuromojiResponse.length === 0) return [];
-      return [
-        ...new Map(
-          kuromojiResponse.map((item) => [item["word_id"], item])
-        ).values(),
-      ];
-    });
+    // setfilteredWords(() => {
+    //   if (kuromojiResponse.length === 0) return [];
+    //   return [
+    //     ...new Map(
+    //       kuromojiResponse.map((item) => [item["word_id"], item])
+    //     ).values(),
+    //   ];
+    // });
+    setfilteredWords(kuromojiResponse);
   }, [kuromojiResponse]);
 
   const kuromojiDBrequest = (word) => {
-    if (word.length === 0) {
-      // setkuromojiResponse([]);
-      return;
-    }
+    setkuromojiResponse([]);
+
     getTokenizer();
     tokenize(word).then((tokens) => {
       kuromojiFilterHandler(tokens);
@@ -33,26 +37,29 @@ export function SearchProvider({children}) {
   };
 
   const kuromojiFilterHandler = (resp) => {
-    // console.log(resp);///
-    resp
-      .filter((item) => {
-        return (
-          item.pos !== "記号" &&
-          item.pos !== "助詞" &&
-          item.pos !== "助動詞" &&
-          item.pos_detail_1 !== "接尾" &&
-          item.pos_detail_1 !== "非自立" &&
-          item.basic_form !== "*"
-        );
-      })
-      .map((word) => {
+    const filtered = resp.filter((item) => {
+      return (
+        item.pos !== "記号" &&
+        item.pos !== "助詞" &&
+        item.pos !== "助動詞" &&
+        item.pos_detail_1 !== "接尾" &&
+        item.pos_detail_1 !== "非自立" &&
+        item.basic_form !== "*"
+      );
+    });
+
+    filtered.forEach((word) => {
+      try {
         axios
           .get(
             `http://localhost:5000/warodai${
               isHiragana(word.surface_form)
                 ? `?wordReadings.kana=${word.surface_form}`
                 : `?word=${word?.basic_form}`
-            }`
+            }`,
+            {
+              cancelToken: cancelTokenSource.token,
+            }
           )
           .then((data) => {
             // if (data.data.length === 0) {
@@ -61,32 +68,22 @@ export function SearchProvider({children}) {
             //   });
             // }
 
-            if (data.data[0]?.meanings[0]) {
-              setkuromojiResponse(() => {
-                if (word.pos === "動詞") {
-                  return [
-                    ...kuromojiResponse,
-                    {
-                      ...word,
-                      reading: setDefaultConjugation(word),
-                      meaning: data.data[0].meanings,
-                    },
-                  ];
-                } else {
-                  return [
-                    ...kuromojiResponse,
-                    {
-                      ...word,
-                      meaning: data.data[0].meanings,
-                    },
-                  ];
-                }
-              });
-            } else {
-              console.log("hui");
-            }
+            setkuromojiResponse((prev) => {
+              if (data.data[0]?.meanings[0]) {
+                return [
+                  ...prev,
+                  {
+                    ...word,
+                    meaning: data.data[0].meanings,
+                  },
+                ];
+              } else {
+                return [...prev, word];
+              }
+            });
           });
-      });
+      } catch (error) {}
+    });
   };
 
   //Work with Selector
@@ -142,6 +139,7 @@ export function SearchProvider({children}) {
         kuromojiResponse,
         loading,
         setLoading,
+        cancel,
       }}
     >
       {children}

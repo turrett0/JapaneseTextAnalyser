@@ -12,7 +12,6 @@ function WordModal() {
     if (e.target === e.currentTarget) {
       setCurrentWord({});
     }
-    console.log(currentWord.meaning);
   };
 
   return (

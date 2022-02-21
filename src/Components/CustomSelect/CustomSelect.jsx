@@ -3,18 +3,19 @@ import SearchContext from "../../Context/SearchContext/SearchContext";
 import "./CustomSelect.scss";
 
 function CustomSelect() {
-
   const {searchSelectHandler} = useContext(SearchContext);
 
-  const selectHandler=(e)=>{
-    console.log(e.target.value)
-  }
+  const selectHandler = (e) => {
+    console.log(e.target.value);
+  };
 
-
-
-   return (
+  return (
     <div className="filter-select">
-      <select name="filter-words" className="filter-select" onChange={(e)=> searchSelectHandler(e.target.value)}>
+      <select
+        name="filter-words"
+        className="filter-select"
+        onChange={(e) => searchSelectHandler(e.target.value)}
+      >
         <option value="default">default</option>
         <option value="名詞">noun</option>
         <option value="動詞">verb</option>

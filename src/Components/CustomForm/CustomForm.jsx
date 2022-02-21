@@ -3,19 +3,12 @@ import "./CustomForm.scss";
 import {useRef, useContext} from "react";
 import SearchContext from "../../Context/SearchContext/SearchContext";
 import {MdOutlineCancel as CancelIcon} from "react-icons/md";
-import CustomSelect from "../CustomSelect/CustomSelect";
 import debounce from "lodash.debounce";
-import {ReactComponent as Spinner} from "../../assets/spinner.gif";
 import {exportToCsv} from "../../csvExport";
 
 function CustomForm() {
-  const {
-    kuromojiDBrequest,
-    filteredWords,
-    loading,
-    setLoading,
-    setfilteredWords,
-  } = useContext(SearchContext);
+  const {kuromojiDBrequest, filteredWords, setLoading, setfilteredWords} =
+    useContext(SearchContext);
   const inputRef = useRef();
 
   const csvPrepare = () => {

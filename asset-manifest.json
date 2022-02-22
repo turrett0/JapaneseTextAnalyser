@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/JapaneseTextAnalyser/static/css/main.257f07cc.css",
+    "main.js": "/JapaneseTextAnalyser/static/js/main.317b5d6c.js",
+    "static/media/spinner.gif": "/JapaneseTextAnalyser/static/media/spinner.a1a996746e5e48352c81.gif",
+    "index.html": "/JapaneseTextAnalyser/index.html",
+    "main.257f07cc.css.map": "/JapaneseTextAnalyser/static/css/main.257f07cc.css.map",
+    "main.317b5d6c.js.map": "/JapaneseTextAnalyser/static/js/main.317b5d6c.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.257f07cc.css",
+    "static/js/main.317b5d6c.js"
+  ]
+}

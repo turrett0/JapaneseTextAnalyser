@@ -2,7 +2,6 @@ import React from "react";
 import "./WordModal.scss";
 import WordModalContext from "../../Context/WordModalContext/WordModalContext";
 import {useContext} from "react";
-import {useEffect} from "react";
 import {v4 as uuid} from "uuid";
 
 function WordModal() {
@@ -21,6 +20,10 @@ function WordModal() {
     document.body.style.overflow = "hidden";
   }
 
+  function createMarkup(word) {
+    return {__html: word};
+  }
+
   return Object.keys(currentWord).length !== 0 ? (
     <div className="wordModal" onClick={clickHandler}>
       <div className="wordModal-card">
@@ -35,9 +38,8 @@ function WordModal() {
         {currentWord.meaning && <p>Meaning(RU): {currentWord.meaning}</p>}
         {currentWord.phrases.length > 0 && (
           <div className="wordModal-examples">
-            <span>Examples</span>
             {currentWord.phrases.map((phrase) => (
-              <p key={uuid()}>{phrase}</p>
+              <p key={uuid()} dangerouslySetInnerHTML={createMarkup(phrase)} />
             ))}
           </div>
         )}

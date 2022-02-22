@@ -31,12 +31,10 @@ function CustomForm() {
     return rows;
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const onSubmitHandler = debounce(() => {
+    setLoading(true);
     kuromojiDBrequest(inputRef.current.value);
-  };
-
-  const debouncedCallback = debounce(handleSubmit, 2000);
+  }, 1000);
 
   return (
     <div className="main-input">
@@ -49,10 +47,7 @@ function CustomForm() {
           }}
         />
         <textarea
-          onChange={(e) => {
-            debouncedCallback(e);
-            setLoading(true);
-          }}
+          onChange={onSubmitHandler}
           ref={inputRef}
           id="text"
           placeholder="Search..."

@@ -17,10 +17,10 @@ export function SearchProvider({children}) {
 
   const kuromojiDBrequest = (word) => {
     setkuromojiResponse([]);
-
     getTokenizer();
     tokenize(word).then((tokens) => {
       kuromojiFilterHandler(tokens);
+      console.log(tokens);
     });
   };
 
@@ -41,7 +41,7 @@ export function SearchProvider({children}) {
         const currentReqWord =
           (isHiragana(word.surface_form) && word.surface_form) ||
           (isKatakana(word.surface_form) && toHiragana(word.surface_form));
-        console.log(currentReqWord);
+
         axios
           .get(
             `http://localhost:5000/warodai${

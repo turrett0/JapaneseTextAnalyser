@@ -7,14 +7,7 @@ import Header from './Components/Header/Header';
 import WordModal from './Components/WodrModal/WordModal';
 import { WordModalProvider } from './Context/WordModalContext/WordModalContext';
 
-
-
-
-
 function App() {
-  // kuromojiDBrequest()
-
-
   return (
     <SearchProvider>
       <WordModalProvider>

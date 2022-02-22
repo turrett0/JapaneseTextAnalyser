@@ -2,10 +2,11 @@ import React from "react";
 import "./WordModal.scss";
 import WordModalContext from "../../Context/WordModalContext/WordModalContext";
 import {useContext} from "react";
+import {useEffect} from "react";
+import {v4 as uuid} from "uuid";
 
 function WordModal() {
   const {currentWord, setCurrentWord} = useContext(WordModalContext);
-  // const [jishoWord, setJishoWord] = useState({});
 
   const clickHandler = (e) => {
     e.stopPropagation();
@@ -14,20 +15,35 @@ function WordModal() {
     }
   };
 
-  return (
-    Object.keys(currentWord).length !== 0 && (
-      <div className="wordModal" onClick={clickHandler}>
-        <div className="wordModal-card">
-          {/* <h1>詳細情報</h1> */}
-          <p>Word: {currentWord.basic_form}</p>
-          <p>Reading: {currentWord.reading}</p>
-          <p>Word Type: {currentWord.pos}</p>
-          {currentWord.meaning && <p>Meaning(RU): {currentWord.meaning}</p>}
-          <button disabled>Look Up Jisho</button>
-        </div>
+  if (Object.keys(currentWord).length === 0) {
+    document.body.style.overflow = "unset";
+  } else {
+    document.body.style.overflow = "hidden";
+  }
+
+  return Object.keys(currentWord).length !== 0 ? (
+    <div className="wordModal" onClick={clickHandler}>
+      <div className="wordModal-card">
+        <p>{currentWord.basic_form}</p>
+        {currentWord.word_forms.map(
+          (word) =>
+            currentWord.basic_form !== word && <p key={uuid()}>Also - {word}</p>
+        )}
+
+        <p>Reading: {currentWord.reading}</p>
+        <p>Word Type: {currentWord.pos}</p>
+        {currentWord.meaning && <p>Meaning(RU): {currentWord.meaning}</p>}
+        {currentWord.phrases.length > 0 && (
+          <div className="wordModal-examples">
+            <span>Examples</span>
+            {currentWord.phrases.map((phrase) => (
+              <p key={uuid()}>{phrase}</p>
+            ))}
+          </div>
+        )}
       </div>
-    )
-  );
+    </div>
+  ) : null;
 }
 
 export default WordModal;

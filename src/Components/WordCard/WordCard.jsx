@@ -14,7 +14,7 @@ function WordCard({cardData}) {
 
   return (
     <div className="card" onClick={onClickHandler}>
-      <p>{cardData.basic_form}</p>
+      <p> {cardData.basic_form}</p>
       <p>{cardData.pos} </p>
       <p>{cardData.reading}</p>
       {cardData.meaning && <p>{cardData.meaning}</p>}

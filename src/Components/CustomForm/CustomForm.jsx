@@ -7,15 +7,26 @@ import debounce from "lodash.debounce";
 import {exportToCsv} from "../../csvExport";
 
 function CustomForm() {
-  const {kuromojiDBrequest, filteredWords, setLoading, setfilteredWords} =
-    useContext(SearchContext);
+  const {
+    kuromojiDBrequest,
+    filteredWords,
+    setLoading,
+    setfilteredWords,
+    kuromojiResponse,
+  } = useContext(SearchContext);
   const inputRef = useRef();
 
   const csvPrepare = () => {
     let rows = [];
 
-    filteredWords.forEach((item) => {
-      rows.push([item.basic_form, item.reading, item.meaning]);
+    kuromojiResponse.forEach((item) => {
+      rows.push([
+        item.basic_form,
+        item.reading,
+        item.meaning,
+        item.derivatives,
+        item.phrases,
+      ]);
     });
     return rows;
   };

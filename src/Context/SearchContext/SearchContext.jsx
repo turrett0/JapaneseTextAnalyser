@@ -37,16 +37,18 @@ export function SearchProvider({children}) {
     });
 
     filtered.forEach((word) => {
-      console.log(
-        isKatakana(word.surface_form) && toHiragana(word.surface_form)
-      );
       try {
+        const currentReqWord =
+          (isHiragana(word.surface_form) && word.surface_form) ||
+          (isKatakana(word.surface_form) && toHiragana(word.surface_form));
+        console.log(currentReqWord);
         axios
           .get(
             `http://localhost:5000/warodai${
-              isHiragana(word.surface_form)
-                ? `?wordReadings.kana=${word.surface_form}`
-                : `?word=${word?.basic_form}`
+              isHiragana(word.surface_form) ||
+              (isKatakana(word.surface_form) && toHiragana(word.surface_form))
+                ? `?wordReadings.kana=${currentReqWord}`
+                : `?word_like=${word?.basic_form}`
             }`,
             {
               cancelToken: cancelTokenSource.token,
@@ -58,6 +60,7 @@ export function SearchProvider({children}) {
                 ...prev,
                 {
                   ...word,
+                  word_forms: data.data[0]?.word || [word.basic_form],
                   meaning: data.data[0]?.meanings || "",
                   derivatives: data.data[0]?.derivatives || "",
                   phrases: data.data[0]?.phrases || "",
@@ -70,7 +73,9 @@ export function SearchProvider({children}) {
               ];
             });
           });
-      } catch (error) {}
+      } catch (error) {
+        alert("error", error);
+      }
     });
   };
 

@@ -1,15 +1,15 @@
-import {createContext, useEffect, useState} from "react";
-import {tokenize, getTokenizer} from "kuromojin";
-import axios from "axios";
-import {isHiragana, toHiragana} from "wanakana";
-import {isKatakana} from "wanakana";
+import { createContext, useEffect, useState } from "react";
+import { tokenize, getTokenizer } from "kuromojin";
+import { isHiragana, toHiragana } from "wanakana";
+import { isKatakana } from "wanakana";
+import warodai from "../../warodai.json";
+
 const SearchContext = createContext();
 
-export function SearchProvider({children}) {
+export function SearchProvider({ children }) {
   const [kuromojiResponse, setkuromojiResponse] = useState([]);
   const [filteredWords, setfilteredWords] = useState([]);
   const [loading, setLoading] = useState(false);
-  const cancelTokenSource = axios.CancelToken.source();
 
   useEffect(() => {
     setfilteredWords(kuromojiResponse);
@@ -20,7 +20,6 @@ export function SearchProvider({children}) {
     getTokenizer();
     tokenize(word).then((tokens) => {
       kuromojiFilterHandler(tokens);
-      console.log(tokens);
     });
   };
 
@@ -37,45 +36,39 @@ export function SearchProvider({children}) {
     });
 
     filtered.forEach((word) => {
-      try {
-        const currentReqWord =
-          (isHiragana(word.surface_form) && word.surface_form) ||
-          (isKatakana(word.surface_form) && toHiragana(word.surface_form));
+      const currentReqWord =
+        (isHiragana(word.surface_form) && word.surface_form) ||
+        (isKatakana(word.surface_form) && toHiragana(word.surface_form));
 
-        axios
-          .get(
-            `http://localhost:5000/warodai${
-              isHiragana(word.surface_form) ||
-              (isKatakana(word.surface_form) && toHiragana(word.surface_form))
-                ? `?wordReadings.kana=${currentReqWord}`
-                : `?word_like=${word?.basic_form}`
-            }`,
-            {
-              cancelToken: cancelTokenSource.token,
-            }
-          )
-          .then((data) => {
-            setkuromojiResponse((prev) => {
-              return [
-                ...prev,
-                {
-                  ...word,
-                  word_forms: data.data[0]?.word || [word.basic_form],
-                  meaning: data.data[0]?.meanings || "",
-                  derivatives: data.data[0]?.derivatives || "",
-                  phrases: data.data[0]?.phrases || "",
-                  reading:
-                    setDefaultConjugation(
-                      toHiragana(word.reading),
-                      word.conjugated_type
-                    ) || toHiragana(word.reading),
-                },
-              ];
-            });
-          });
-      } catch (error) {
-        alert("error", error);
-      }
+      const getWordFromWarodai = () => {
+        if (currentReqWord) {
+          return warodai.warodai.find(
+            (warodaiWord) => warodaiWord.wordReadings.kana === currentReqWord
+          );
+        } else {
+          return warodai.warodai.find((warodaiWord) =>
+            warodaiWord.word.includes(word.basic_form)
+          );
+        }
+      };
+
+      setkuromojiResponse((prev) => {
+        return [
+          ...prev,
+          {
+            ...word,
+            word_forms: getWordFromWarodai()?.word || [word.basic_form],
+            meaning: getWordFromWarodai()?.meanings || "",
+            derivatives: getWordFromWarodai()?.derivatives || "",
+            phrases: getWordFromWarodai()?.phrases || "",
+            reading:
+              setDefaultConjugation(
+                toHiragana(word.reading),
+                word.conjugated_type
+              ) || toHiragana(word.reading),
+          },
+        ];
+      });
     });
   };
 
@@ -128,7 +121,7 @@ export function SearchProvider({children}) {
       value={{
         kuromojiDBrequest,
         searchSelectHandler, //input (still not included in app)
-        setfilteredWords,
+        setkuromojiResponse,
         filteredWords,
         kuromojiResponse,
         loading,

@@ -11,10 +11,10 @@ function CustomForm() {
     kuromojiDBrequest,
     filteredWords,
     setLoading,
-    setfilteredWords,
+    setkuromojiResponse,
     kuromojiResponse,
   } = useContext(SearchContext);
-  const inputRef = useRef();
+  const inputRef = useRef("");
 
   const csvPrepare = () => {
     let rows = [];
@@ -31,8 +31,7 @@ function CustomForm() {
     return rows;
   };
 
-  const onSubmitHandler = debounce(() => {
-    setLoading(true);
+  const onSubmitHandler = debounce((e) => {
     kuromojiDBrequest(inputRef.current.value);
   }, 1000);
 
@@ -43,11 +42,14 @@ function CustomForm() {
           className="cancelButton"
           onClick={() => {
             inputRef.current.value = "";
-            setfilteredWords([]);
+            setkuromojiResponse([]);
           }}
         />
         <textarea
-          onChange={onSubmitHandler}
+          onChange={() => {
+            setLoading(true);
+            onSubmitHandler();
+          }}
           ref={inputRef}
           id="text"
           placeholder="Search..."

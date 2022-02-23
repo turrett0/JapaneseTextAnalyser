@@ -2,7 +2,7 @@ import { createContext, useEffect, useState } from "react";
 import { tokenize, getTokenizer } from "kuromojin";
 import { isHiragana, toHiragana } from "wanakana";
 import { isKatakana } from "wanakana";
-import warodai from "../../warodai.json";
+// import warodai from "../../warodai.json";
 
 const SearchContext = createContext();
 
@@ -12,7 +12,7 @@ export function SearchProvider({ children }) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setfilteredWords(kuromojiResponse);
+    // setfilteredWords(kuromojiResponse);
   }, [kuromojiResponse]);
 
   const kuromojiDBrequest = (word) => {
@@ -40,35 +40,35 @@ export function SearchProvider({ children }) {
         (isHiragana(word.surface_form) && word.surface_form) ||
         (isKatakana(word.surface_form) && toHiragana(word.surface_form));
 
-      const getWordFromWarodai = () => {
-        if (currentReqWord) {
-          return warodai.warodai.find(
-            (warodaiWord) => warodaiWord.wordReadings.kana === currentReqWord
-          );
-        } else {
-          return warodai.warodai.find((warodaiWord) =>
-            warodaiWord.word.includes(word.basic_form)
-          );
-        }
-      };
+      // const getWordFromWarodai = () => {
+      //   if (currentReqWord) {
+      //     return warodai.warodai.find(
+      //       (warodaiWord) => warodaiWord.wordReadings.kana === currentReqWord
+      //     );
+      //   } else {
+      //     return warodai.warodai.find((warodaiWord) =>
+      //       warodaiWord.word.includes(word.basic_form)
+      //     );
+      //   }
+      // };
 
-      setkuromojiResponse((prev) => {
-        return [
-          ...prev,
-          {
-            ...word,
-            word_forms: getWordFromWarodai()?.word || [word.basic_form],
-            meaning: getWordFromWarodai()?.meanings || "",
-            derivatives: getWordFromWarodai()?.derivatives || "",
-            phrases: getWordFromWarodai()?.phrases || "",
-            reading:
-              setDefaultConjugation(
-                toHiragana(word.reading),
-                word.conjugated_type
-              ) || toHiragana(word.reading),
-          },
-        ];
-      });
+      // setkuromojiResponse((prev) => {
+      //   return [
+      //     ...prev,
+      //     {
+      //       ...word,
+      //       word_forms: getWordFromWarodai()?.word || [word.basic_form],
+      //       meaning: getWordFromWarodai()?.meanings || "",
+      //       derivatives: getWordFromWarodai()?.derivatives || "",
+      //       phrases: getWordFromWarodai()?.phrases || "",
+      //       reading:
+      //         setDefaultConjugation(
+      //           toHiragana(word.reading),
+      //           word.conjugated_type
+      //         ) || toHiragana(word.reading),
+      //     },
+      //   ];
+      // });
     });
   };
 

@@ -1,9 +1,32 @@
 .main-output__inner {
   padding-top: 10px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  overflow: scroll;
+  // display: flex;
+  // flex-wrap: wrap;
+  // justify-content: center;
+  // align-items: center;
+  // overflow: scroll;
   height: 600px;
+  & ul {
+    display: flex;
+    & li {
+      list-style: none;
+    }
+  }
+}
+
+.word {
+  display: inline-block;
+  .furigana-wrapper {
+    display: block;
+    height: 11px;
+    font-size: 9px;
+  }
+  .furigana.hidden {
+    opacity: 0;
+  }
+  .testAfter-wrapper {
+    & p {
+      display: inline;
+    }
+  }
 }

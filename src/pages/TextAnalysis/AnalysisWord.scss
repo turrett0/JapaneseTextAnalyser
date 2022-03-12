@@ -1,0 +1,151 @@
+@import "../../App.scss";
+.furigana {
+  font-size: 10px;
+}
+
+.word {
+  display: inline-block;
+  .furigana-wrapper {
+    color: var(--color-text);
+    visibility: hidden;
+    display: block;
+    height: 11px;
+    font-size: 9px;
+    &.show {
+      visibility: visible;
+    }
+  }
+  .furigana.hidden {
+    opacity: 0;
+  }
+  .testAfter-wrapper {
+    & p {
+      display: inline;
+    }
+  }
+}
+.word-analysis__menu {
+  position: absolute;
+  right: 0;
+  top: -40px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.words-analysis {
+  position: relative;
+  width: 80%;
+  margin: 50px auto 0;
+  &__edit {
+    cursor: pointer;
+  }
+  @media (max-height: 896px) {
+    & {
+      margin: 30px auto;
+    }
+  }
+}
+
+button {
+  @include defaultButton;
+}
+
+.words {
+  padding: 10px 0;
+  border: 2px solid transparent;
+  transition: 0.1s all;
+  margin-bottom: 50px;
+}
+textarea {
+  padding: 0;
+}
+
+.words.edit {
+  height: 60vh;
+  border: 2px solid var(--border-color);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.word {
+  display: inline-block;
+  font-size: 20px;
+  color: black;
+  font-weight: 800;
+  position: relative;
+  z-index: 99;
+
+  &-card {
+    display: none;
+    position: absolute;
+    min-width: 185px;
+    height: 180px;
+    bottom: 1px;
+    margin-bottom: 25px;
+    left: calc(50% - 83px);
+    z-index: 100;
+    &__inner {
+      border-radius: 10px;
+      background-color: rgba(236, 236, 236, 0.6);
+      backdrop-filter: blur(9px);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-evenly;
+      font-size: 14px;
+      box-shadow: 0px 8px 18px 0px rgba(34, 60, 80, 0.2);
+    }
+  }
+  &-card__title {
+    margin: 0;
+    padding: 0;
+    display: inline;
+    cursor: pointer;
+  }
+  &-card.visible {
+    display: inline;
+  }
+}
+.testAfter {
+  cursor: pointer;
+  color: var(--color-text);
+  &.verb {
+    color: green;
+  }
+
+  &.noun {
+    color: coral;
+  }
+  &.adjective {
+    color: rebeccapurple;
+  }
+  &.adverb {
+    color: khaki;
+  }
+  &.conjuction {
+    color: red;
+  }
+  &.desu {
+    color: deeppink;
+  }
+  &.particle {
+    color: mediumorchid;
+  }
+  &.prenominal {
+    color: teal;
+  }
+  &.aux {
+    color: green;
+  }
+}
+
+.testAfter:hover {
+  color: lightgreen;
+}
+
+.analysisFormWrapper {
+  width: 100%;
+  height: 100%;
+}

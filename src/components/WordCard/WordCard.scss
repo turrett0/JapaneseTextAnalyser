@@ -1,0 +1,17 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  border: 1px solid lightblue;
+}
+
+.card p {
+  padding: 3px 0;
+  border-bottom: 1px solid lightgray;
+}
+
+.card p:nth-of-type(3) {
+  border: none;
+}

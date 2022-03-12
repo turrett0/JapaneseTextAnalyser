@@ -1,0 +1,47 @@
+$mainActiveColor: rgb(43, 133, 240);
+
+.header {
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  &__inner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 65px;
+    border-bottom: 1px solid lightgray;
+  }
+
+  &-left {
+    width: 100px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &-right {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 20px;
+  }
+
+  &-account__btn {
+    padding: 10px 25px;
+    background: $mainActiveColor;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    color: white;
+    cursor: pointer;
+  }
+}
+
+.burger-menu__button {
+  font-size: 12px;
+  cursor: pointer;
+
+  & div {
+    width: 32px;
+    height: 3px;
+    background-color: gray;
+    margin-bottom: 5px;
+  }
+}

@@ -1,0 +1,58 @@
+@mixin defaultButton {
+  border: none;
+  padding: 5px 10px;
+  background: var(--button-color);
+  color: var(--inverted-color);
+  border-radius: 16px;
+  cursor: pointer;
+  font-weight: 600;
+  height: 2rem;
+}
+
+.main {
+  margin: 0 auto;
+  margin-top: 10vh;
+  width: 70vw;
+  border-radius: 20px;
+}
+
+.main-inner {
+  overflow: hidden;
+  border-radius: 20px;
+  background: #fff;
+  height: 70vh;
+  display: flex;
+  box-shadow: 0px 0px 60px 14px rgba(0, 2, 4, 0.2);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+@media (prefers-color-scheme: light) {
+  body {
+    --color-text: hsl(200, 15%, 8%);
+    --color-bg: rgb(255, 255, 255);
+    --button-color: coral;
+    --inverted-color: white;
+    --border-color: skyblue;
+    --placeholder: rgba(0, 0, 0, 0.3);
+  }
+}
+@media (prefers-color-scheme: dark) {
+  body {
+    --color-text: hsl(0, 0%, 100%);
+    --color-bg: rgb(29, 30, 32);
+    --button-color: rgb(255, 255, 255);
+    --inverted-color: black;
+    --border-color: white;
+    --placeholder: rgba(255, 255, 255, 0.3);
+  }
+}

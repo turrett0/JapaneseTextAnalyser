@@ -22,9 +22,6 @@ const TextArea: React.FC<any> = ({...props}) => {
   const onSubmitHandler = debounce(
     (e: React.ChangeEvent<HTMLTextAreaElement>) => {
       if (textAreaValue.trim() !== e.target.value.trim()) {
-        const shrek = {
-          text: e.target.value,
-        };
         FetchKuromojiAction(e.target.value);
         SetCurrentText(e.target.value);
       }

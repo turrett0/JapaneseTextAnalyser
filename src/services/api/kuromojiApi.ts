@@ -1,5 +1,5 @@
 export const fetchKuromoji = (req: string) => {
-  return fetch("http://localhost:5151/", {
+  return fetch("https://dry-ravine-39390.herokuapp.com/", {
     method: "POST",
     mode: "cors",
     headers: [["Content-Type", "application/json"]],

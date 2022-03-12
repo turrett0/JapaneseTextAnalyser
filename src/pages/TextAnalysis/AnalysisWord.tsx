@@ -17,7 +17,10 @@ const AnalysisWord: React.FC<Props> = ({
   return (
     <div
       className={`word ${kuromojiArticle.engPos}`}
-      onMouseOver={() => setVisible(true)}
+      onMouseOver={() => {
+        setVisible(true);
+        console.log(kuromojiArticle);
+      }}
       onMouseLeave={() => setVisible(false)}
     >
       {visible && (
@@ -48,11 +51,23 @@ const AnalysisWord: React.FC<Props> = ({
           <span
             className={`furigana-wrapper ${showFurigana ? "show" : "hidden"}`}
           >
-            <span className="furigana">{kuromojiArticle.furigana}</span>
+            <span
+              className={`furigana ${
+                kuromojiArticle.kanjiCount && kuromojiArticle.kanjiCount >= 2
+                  ? ""
+                  : ""
+              }`}
+            >
+              {kuromojiArticle.furigana}
+            </span>
           </span>
         )}
         <span className="testAfter-wrapper">
-          <p className={`testAfter ${kuromojiArticle.engPos}`}>
+          <p
+            className={`testAfter ${kuromojiArticle.engPos} ${
+              visible ? "visible" : ""
+            }`}
+          >
             {kuromojiArticle.surface_form}
           </p>
         </span>

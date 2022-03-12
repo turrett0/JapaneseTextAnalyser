@@ -1,5 +1,5 @@
 import {IKuromojiArticle} from "../../store/kuromojiReducer/contracts/state";
-import {toHiragana} from "wanakana";
+import {isKanji, toHiragana} from "wanakana";
 
 export const kuromojiFilterHandler = (
   resp: IKuromojiArticle[]
@@ -123,6 +123,7 @@ export const setEngWordPos = (
         wordPos = "";
         break;
     }
+
     return {
       ...kuromojiArticle,
       engPos: wordPos,
@@ -130,6 +131,12 @@ export const setEngWordPos = (
         .split("")
         .filter((x) => kuromojiArticle.surface_form.split("").indexOf(x) === -1)
         .join(""),
+      kanjiCount: kuromojiArticle.surface_form.split("").reduce((acc, curr) => {
+        if (isKanji(curr)) {
+          acc += 1;
+        }
+        return acc;
+      }, 0),
     };
   });
 };
@@ -259,6 +266,8 @@ export const combineVerbHandler = (
         item.basic_form !== "れる" &&
         item.surface_form !== "せた" &&
         item.surface_form !== "せて" &&
-        item.conjugated_type !== "不変化型"
+        item.conjugated_type !== "不変化型" &&
+        item.surface_form !== "ない" &&
+        arr[i - 1]?.surface_form !== "がない"
     );
 };

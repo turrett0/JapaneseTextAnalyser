@@ -1,4 +1,4 @@
-import {call, put, takeEvery, takeLatest} from "redux-saga/effects";
+import {call, put, takeLatest} from "redux-saga/effects";
 import {fetchKuromoji} from "../../../services/api/kuromojiApi";
 import {IFetchKuromojiAction} from "../actionCreator";
 import {KuromojiActionsObject} from "../actionCreator";
@@ -13,6 +13,10 @@ export function* KuromojiSaga() {
 }
 
 export function* getKuromojiArticles({payload}: IFetchKuromojiAction) {
-  const data: IKuromojiArticle[] = yield call(fetchKuromoji, payload);
-  yield put(SetKuromojiResponseAction(data));
+  try {
+    const data: IKuromojiArticle[] = yield call(fetchKuromoji, payload);
+    yield put(SetKuromojiResponseAction(data));
+  } catch (error) {
+    alert(error);
+  }
 }

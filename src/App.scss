@@ -44,6 +44,7 @@ body {
     --inverted-color: white;
     --border-color: skyblue;
     --placeholder: rgba(0, 0, 0, 0.3);
+    --blur: rgba(236, 236, 236, 0.6);
   }
 }
 @media (prefers-color-scheme: dark) {
@@ -54,5 +55,6 @@ body {
     --inverted-color: black;
     --border-color: white;
     --placeholder: rgba(255, 255, 255, 0.3);
+    --blur: rgba(black, 0.6);
   }
 }

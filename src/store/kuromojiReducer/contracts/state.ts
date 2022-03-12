@@ -16,6 +16,7 @@ export interface IKuromojiArticle {
   furigana?: string;
   defaultReading?: string;
   warodai: Array<IWarodaiArticle>;
+  kanjiCount?: number;
 }
 
 export interface IWarodaiArticle {

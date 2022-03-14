@@ -262,6 +262,7 @@ export const combineVerbHandler = (
         item.conjugated_form !== "連用ニ接続" &&
         item.pos_detail_1 !== "接続助詞" &&
         item.basic_form !== "ん" &&
+        item.pos_detail_1 !== "終助詞" &&
         item.basic_form !== "られる" &&
         item.basic_form !== "れる" &&
         item.surface_form !== "せた" &&

@@ -11,7 +11,7 @@ function WordCards() {
   //pagination
 
   const testRef = useRef<HTMLDivElement>(null);
-  const [cardsPerPage, setCardsPerPage] = useState<number>(10);
+  const [cardsPerPage, setCardsPerPage] = useState<number>(50);
 
   const currentCards = kuromojiResponse.slice(0, cardsPerPage);
 
@@ -32,7 +32,7 @@ function WordCards() {
       >
         {kuromojiResponse.length >= cardsPerPage &&
           kuromojiResponse.length - currentCards.length >= cardsPerPage && (
-            <button onClick={() => setCardsPerPage((prev) => (prev += 10))}>
+            <button onClick={() => setCardsPerPage((prev) => (prev += 30))}>
               More Cards
             </button>
           )}

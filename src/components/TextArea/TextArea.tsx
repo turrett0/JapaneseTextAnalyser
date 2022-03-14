@@ -26,7 +26,7 @@ const TextArea: React.FC<any> = ({...props}) => {
         SetCurrentText(e.target.value);
       }
     },
-    2000
+    3000
   );
   return (
     <textarea

@@ -34,6 +34,7 @@ export interface IWarodaiArticle {
 export interface IKuromojiExtendedArticle extends IKuromojiArticle {
   engPos: string;
   furigana: string;
+  kanjiCount?: number;
 }
 
 export enum PageMode {

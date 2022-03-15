@@ -1,15 +1,24 @@
 import "./TextArea.scss";
-import debounce from "lodash.debounce";
-import React, {useEffect, useRef, useState} from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import useActions from "../../hooks/useActions";
 import {useSelector} from "react-redux";
 import {selectCurrentText} from "../../store/kuromojiReducer/contracts/selectors";
+import _ from "lodash";
 
 const TextArea: React.FC<any> = ({...props}) => {
   const {FetchKuromojiAction, SetCurrentText} = useActions();
   const currentText = useSelector(selectCurrentText);
-  const [textAreaValue, setCurrentText] = useState<string>(currentText);
+  const [textAreaValue, setTextAreaValue] = useState<string>(currentText);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
+  const debounce = useCallback(
+    _.debounce((e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      if (textAreaValue.trim() !== e.target.value.trim()) {
+        FetchKuromojiAction(e.target.value);
+        SetCurrentText(e.target.value);
+      }
+    }, 1000),
+    []
+  );
   useEffect(() => {
     if (textAreaRef.current) {
       textAreaRef.current.focus();
@@ -19,20 +28,12 @@ const TextArea: React.FC<any> = ({...props}) => {
       );
     }
   }, []);
-  const onSubmitHandler = debounce(
-    (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-      if (textAreaValue.trim() !== e.target.value.trim()) {
-        FetchKuromojiAction(e.target.value);
-        SetCurrentText(e.target.value);
-      }
-    },
-    3000
-  );
+
   return (
     <textarea
       onChange={(e) => {
-        onSubmitHandler(e);
-        setCurrentText(e.target.value);
+        setTextAreaValue(e.target.value);
+        debounce(e);
       }}
       id="custom__text-area"
       className="search__input"

@@ -30,6 +30,7 @@ const TextAnalysis: React.FC = () => {
     _.isEqual
   );
 
+  console.log(kuromojiArticles);
   const keyHandler = (e: KeyboardEvent) => {
     if (
       currentText.trim().length > 0 &&
@@ -64,7 +65,7 @@ const TextAnalysis: React.FC = () => {
       <div
         className={`words ${
           editMode || currentText.length === 0 ? "edit" : ""
-        }`}
+        } ${pageMode}`}
         onDoubleClick={() =>
           !editMode && pageMode === PageMode.FULLTEXT && setEditMode(true)
         }

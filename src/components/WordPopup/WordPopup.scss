@@ -1,0 +1,103 @@
+.word-card {
+  font-weight: 500;
+  border-radius: 10px;
+  background-color: var(--blur);
+  backdrop-filter: blur(9px);
+  overflow: scroll;
+  display: block;
+  min-width: 350px;
+  height: 350px;
+  bottom: 30px;
+  right: 50%;
+  left: -150px;
+  left: calc(50% - 83px);
+  z-index: 100;
+  color: var(--color-text);
+
+  &.popup {
+    position: absolute;
+  }
+  &.card {
+    width: 400px;
+    background-color: gainsboro;
+    color: black;
+  }
+
+  &__inner {
+    padding-bottom: 10px;
+    min-height: 94%;
+    font-size: 15px;
+    padding: 10px;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    // align-items: center;
+    box-shadow: 0px 8px 18px 0px rgba(34, 60, 80, 0.2);
+  }
+  &__dictonary-name {
+    margin-bottom: 20px;
+    display: block;
+    text-align: left;
+    width: 100%;
+    position: relative;
+    &::after {
+      top: 50%;
+      position: absolute;
+      content: "";
+      width: 53%;
+      margin-left: 10px;
+      overflow: hidden;
+      height: 1px;
+      background-color: lightgray;
+    }
+  }
+  &__derivatives,
+  &__phrases,
+  &__meanings,
+  &__main {
+    padding-top: 5px;
+    margin-top: 12px;
+    border-top: 2px solid gray;
+    & span {
+      display: block;
+      margin-top: 8px;
+    }
+  }
+  &__headline {
+    text-align: center;
+    font-weight: bold;
+    border-top: none;
+    border-bottom: 2px solid gray;
+    padding-bottom: 5px;
+  }
+  &__main {
+    border-top: none;
+  }
+  & i {
+    color: green;
+  }
+  &-card__title {
+    margin: 0;
+    padding: 0;
+    display: inline;
+    cursor: pointer;
+  }
+  &-card.visible {
+    // left: -150px;
+
+    display: block;
+  }
+
+  &.bottom {
+    top: 35px;
+  }
+  &.top {
+    bottom: 30px;
+  }
+  &.left {
+    left: -30px;
+  }
+  &.right {
+    left: -250px;
+  }
+}

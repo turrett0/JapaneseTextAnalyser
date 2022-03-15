@@ -124,13 +124,34 @@ export const setEngWordPos = (
         break;
     }
 
+    let setFurigana: Array<any> = [];
+    let kanjies = kuromojiArticle.surface_form
+      .split("")
+      .filter((item: string) => isKanji(item));
+    let shrek = kuromojiArticle.defaultReading
+      ?.split("")
+      .forEach((letter, i, arr) => {
+        if (kuromojiArticle.surface_form.includes(letter)) {
+          setFurigana.push("|");
+        } else {
+          setFurigana.push(letter);
+        }
+      });
+    setFurigana = setFurigana
+      .join("")
+      .split("|")
+      .filter((item) => item)
+      .map((item, i) => {
+        return {
+          kanji: kanjies[i],
+          furigana: item,
+        };
+      });
+
     return {
       ...kuromojiArticle,
       engPos: wordPos,
-      furigana: toHiragana(kuromojiArticle.reading)
-        .split("")
-        .filter((x) => kuromojiArticle.surface_form.split("").indexOf(x) === -1)
-        .join(""),
+      furigana: setFurigana,
       kanjiCount: kuromojiArticle.surface_form.split("").reduce((acc, curr) => {
         if (isKanji(curr)) {
           acc += 1;
@@ -144,131 +165,105 @@ export const setEngWordPos = (
 export const combineVerbHandler = (
   kuromojiResponse: IKuromojiArticle[]
 ): IKuromojiArticle[] => {
-  return kuromojiResponse
-    .map((currentArticle: IKuromojiArticle, i, arr) => {
+  return kuromojiResponse.reduce(
+    (prevValue: Array<IKuromojiArticle>, curr, i, arr) => {
+      console.log(arr[i + 2]?.surface_form === "ば");
       let tmp = "";
-      const secondArticle = arr[i + 1]?.surface_form;
-      const thirdArticle = arr[i + 2]?.surface_form;
-      if (currentArticle.pos === "動詞") {
+      if (curr.pos === "動詞" || curr.pos === "形容詞") {
         if (
-          secondArticle === "れ" ||
-          secondArticle === "れる" ||
-          secondArticle === "られる"
+          arr[i + 1]?.surface_form === "さ" ||
+          arr[i + 1]?.surface_form === "させ" ||
+          arr[i + 1]?.surface_form === "た" ||
+          arr[i + 1]?.surface_form === "だ" ||
+          arr[i + 1]?.surface_form === "て" ||
+          arr[i + 1]?.surface_form === "で" ||
+          arr[i + 1]?.surface_form === "ない" ||
+          arr[i + 1]?.surface_form === "なかっ" ||
+          arr[i + 1]?.basic_form === "ます" ||
+          arr[i + 1]?.surface_form === "られる" ||
+          arr[i + 1]?.surface_form === "れる" ||
+          arr[i + 1]?.surface_form === "られ" ||
+          arr[i + 1]?.surface_form === "よう" ||
+          arr[i + 1]?.surface_form === "ん" ||
+          arr[i + 1]?.surface_form === "ず" ||
+          arr[i + 1]?.surface_form === "せ" ||
+          arr[i + 1]?.surface_form === "ば"
         ) {
-          tmp += secondArticle;
-        }
-        if (secondArticle === "られ") {
-          tmp += secondArticle;
-        }
-
-        if (thirdArticle === "て" || secondArticle === "て") {
-          tmp += "て";
-        }
-
-        if (
-          secondArticle === "ます" ||
-          secondArticle === "まし" ||
-          secondArticle === "ない" ||
-          secondArticle === "なかっ" ||
-          secondArticle === "ませ"
-        ) {
-          tmp = secondArticle;
-        }
-        if (secondArticle === "た" || thirdArticle === "た") {
-          tmp += "た";
-        }
-        if (secondArticle === "だ") {
-          tmp += "だ";
+          tmp += arr[i + 1]?.surface_form;
         }
         if (
-          thirdArticle === "ます" ||
-          thirdArticle === "まし" ||
-          thirdArticle === "ない" ||
-          thirdArticle === "ませ"
+          arr[i + 2]?.basic_form === "いる" ||
+          arr[i + 2]?.surface_form === "た" ||
+          arr[i + 2]?.surface_form === "ん" ||
+          arr[i + 2]?.surface_form === "た" ||
+          arr[i + 2]?.surface_form === "ない" ||
+          arr[i + 2]?.surface_form === "なかっ" ||
+          arr[i + 2]?.surface_form === "ませ" ||
+          arr[i + 2]?.surface_form === "られ" ||
+          arr[i + 2]?.surface_form === "が" ||
+          arr[i + 2]?.surface_form === "て"
         ) {
-          tmp += arr[i + 2].surface_form;
-        }
-        if (thirdArticle === "ん") {
-          tmp += arr[i + 2].surface_form;
+          tmp += arr[i + 2]?.surface_form;
         }
         if (
           arr[i + 3]?.surface_form === "た" ||
-          arr[i + 3]?.surface_form === "ん"
+          arr[i + 3]?.surface_form === "ます" ||
+          arr[i + 3]?.surface_form === "ませ" ||
+          arr[i + 3]?.surface_form === "ん" ||
+          arr[i + 3]?.surface_form === "ない"
         ) {
-          if (secondArticle !== "て") {
-            tmp += arr[i + 3].surface_form;
-          }
+          tmp += arr[i + 3]?.surface_form;
         }
-        if (secondArticle === "せ") {
-          tmp = "せ" + arr[i + 2].surface_form;
+        if (
+          arr[i + 4]?.surface_form === "ん" ||
+          arr[i + 4]?.surface_form === "でし"
+        ) {
+          tmp += arr[i + 4]?.surface_form;
         }
-
-        if (secondArticle === "で" || thirdArticle === "で") {
-          tmp += "で";
+        if (
+          arr[i + 5]?.surface_form === "でし" ||
+          arr[i + 5]?.surface_form === "た"
+        ) {
+          tmp += arr[i + 5]?.surface_form;
         }
-        if (secondArticle === "ず") {
-          tmp += "ず";
+        if (arr[i + 6]?.surface_form === "た") {
+          tmp += arr[i + 6]?.surface_form;
         }
-
-        return {
-          ...currentArticle,
-          surface_form: currentArticle.surface_form + tmp,
-          combined: true,
-        };
-      } else if (
-        currentArticle.pos === "助動詞" &&
-        currentArticle.conjugated_type === "特殊・ダ" &&
-        currentArticle.surface_form.includes("だ")
-      ) {
-        return {
-          ...currentArticle,
-          surface_form: currentArticle.surface_form + secondArticle,
-        };
-      } else if (currentArticle.surface_form === "でし") {
-        return {
-          ...currentArticle,
-          surface_form: "でした",
-        };
-      } else if (
-        (currentArticle.pos === "形容詞" && secondArticle === "た") ||
-        arr[i + 1]?.basic_form === "ない" ||
-        secondArticle === "て"
-      ) {
-        if (thirdArticle === "た") {
-          tmp = "た";
-        }
-        return {
-          ...currentArticle,
-          surface_form: currentArticle.surface_form + secondArticle + tmp,
-        };
       }
-      // else if (
-      //   currentArticle.pos === "名詞" &&
-      //   arr[i + 1].basic_form === "する"
-      // ) {
-      //   return {
-      //     ...currentArticle,
-      //     surface_form: currentArticle.surface_form + arr[i + 1].surface_form,
-      //   };
-      // }
-      return currentArticle;
-    })
-    .filter(
-      (item: IKuromojiArticle, i, arr) =>
-        item.surface_form !== "て" &&
-        item.conjugated_type !== "特殊・マス" &&
-        item.conjugated_type !== "特殊・タ" &&
-        item.conjugated_type !== "特殊・ナイ" &&
-        item.conjugated_form !== "連用ニ接続" &&
-        item.pos_detail_1 !== "接続助詞" &&
-        item.basic_form !== "ん" &&
-        item.pos_detail_1 !== "終助詞" &&
-        item.basic_form !== "られる" &&
-        item.basic_form !== "れる" &&
-        item.surface_form !== "せた" &&
-        item.surface_form !== "せて" &&
-        item.conjugated_type !== "不変化型" &&
-        item.surface_form !== "ない" &&
+
+      if (
+        (tmp === "ます" &&
+          curr.basic_form === "いる" &&
+          prevValue[i - 2]?.surface_form.includes("ています")) ||
+        prevValue[0]?.surface_form.includes("ています") ||
+        (curr.surface_form === "せ" && arr[i + 1].surface_form === "て")
+      ) {
+        return prevValue;
+      } else if (
+        curr.surface_form !== "て" &&
+        curr.conjugated_type !== "特殊・マス" &&
+        curr.conjugated_type !== "特殊・タ" &&
+        curr.conjugated_type !== "特殊・ナイ" &&
+        curr.conjugated_form !== "連用ニ接続" &&
+        curr.pos_detail_1 !== "接続助詞" &&
+        curr.basic_form !== "られる" &&
+        curr.basic_form !== "れる" &&
+        curr.surface_form !== "せた" &&
+        curr.surface_form !== "せて" &&
+        curr.conjugated_type !== "不変化型" &&
+        curr.surface_form !== "ない" &&
         arr[i - 1]?.surface_form !== "がない"
-    );
+      ) {
+        return prevValue.concat([
+          {
+            ...curr,
+            surface_form: curr.surface_form + tmp,
+          },
+        ]);
+      }
+
+      return prevValue;
+    },
+    []
+  );
 };

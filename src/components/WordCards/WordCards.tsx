@@ -1,9 +1,9 @@
 import "./WordCards.scss";
-import WordCard from "../WordCard/WordCard";
 import {useSelector} from "react-redux";
 import {selectKuromojiFilteredResponse} from "../../store/kuromojiReducer/contracts/selectors";
 import {v4 as uuid} from "uuid";
 import {useRef, useState} from "react";
+import WordPopup from "../WordPopup/WordPopup";
 
 function WordCards() {
   const kuromojiResponse = useSelector(selectKuromojiFilteredResponse);
@@ -19,7 +19,7 @@ function WordCards() {
     <div className="main-output">
       <div className="main-output__inner" ref={testRef}>
         {currentCards.map((cardData) => (
-          <WordCard key={uuid()} cardData={cardData} />
+          <WordPopup key={uuid()} currentArticle={cardData} role={"card"} />
         ))}
       </div>
       <div

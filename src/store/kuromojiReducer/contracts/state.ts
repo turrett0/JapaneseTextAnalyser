@@ -13,7 +13,7 @@ export interface IKuromojiArticle {
   word_position: number;
   word_type: string;
   engPos?: string;
-  furigana?: string;
+  furigana?: any;
   defaultReading?: string;
   warodai: Array<IWarodaiArticle>;
   kanjiCount?: number;
@@ -33,7 +33,10 @@ export interface IWarodaiArticle {
 
 export interface IKuromojiExtendedArticle extends IKuromojiArticle {
   engPos: string;
-  furigana: string;
+  furigana: Array<{
+    kanji: string;
+    furigana: string;
+  }>;
   kanjiCount?: number;
 }
 

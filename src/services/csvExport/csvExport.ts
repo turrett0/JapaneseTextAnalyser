@@ -7,14 +7,7 @@ export const csvPrepare = (
   let rows: Array<Array<string>> = [];
 
   kuromojiResponse.forEach((item: IKuromojiArticle) => {
-    rows.push([
-      item.basic_form,
-      item.reading,
-      item.pos,
-      // item.meaning,
-      // item.derivatives,
-      // item.phrases,
-    ]);
+    rows.push([item.basic_form, item.reading, item.pos]);
   });
 
   var processRow = function (row: Array<any>) {
@@ -33,8 +26,11 @@ export const csvPrepare = (
   };
 
   var csvFile = "";
-  for (var i = 0; i < rows.length; i++) {
-    csvFile += processRow(rows[i]);
+  if (rows !== undefined) {
+    for (var i = 0; i < rows.length; i++) {
+      console.log(rows);
+      csvFile += processRow(rows[i]);
+    }
   }
 
   var blob = new Blob([csvFile], {type: "text/csv;charset=utf-8;"});

@@ -30,7 +30,6 @@ const TextAnalysis: React.FC = () => {
     _.isEqual
   );
 
-  console.log(kuromojiArticles);
   const keyHandler = (e: KeyboardEvent) => {
     if (
       currentText.trim().length > 0 &&

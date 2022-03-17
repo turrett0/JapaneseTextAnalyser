@@ -11,6 +11,7 @@ type Props = {
   currentArticle: IKuromojiArticle;
   wordRef?: React.RefObject<HTMLDivElement>;
   role?: string;
+  setVisible?: (value: React.SetStateAction<boolean>) => void;
 };
 
 const WordPopup: React.FC<Props> = ({
@@ -18,6 +19,7 @@ const WordPopup: React.FC<Props> = ({
   currentArticle,
   wordRef,
   role = "",
+  setVisible,
 }) => {
   const getCardPosition = () => {
     let tmp = "";
@@ -44,6 +46,19 @@ const WordPopup: React.FC<Props> = ({
     <>
       {visible && currentArticle.warodai.length !== 0 && (
         <div className={`word-card ${role} ${getCardPosition()}`}>
+          <div className="word-card__close">
+            {role !== "card" && (
+              <button
+                style={{
+                  marginTop: "20px",
+                  marginBottom: "20px",
+                }}
+                onClick={() => setVisible && setVisible(false)}
+              >
+                Закрыть окно
+              </button>
+            )}
+          </div>
           <div className="word-card__inner">
             {role !== "card" && (
               <span className="word-card__dictonary-name">

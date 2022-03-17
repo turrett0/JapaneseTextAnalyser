@@ -1,4 +1,4 @@
-import {all, fork, spawn} from "redux-saga/effects";
+import {spawn} from "redux-saga/effects";
 import {KuromojiSaga} from "../kuromojiReducer/sagas";
 
 export default function* rootSaga() {

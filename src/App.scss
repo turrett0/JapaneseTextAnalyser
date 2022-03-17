@@ -9,6 +9,10 @@
   height: 2rem;
 }
 
+* {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
 .main {
   margin: 0 auto;
   margin-top: 10vh;
@@ -33,7 +37,7 @@
 body {
   background-color: var(--color-bg);
   color: var(--color-text);
-  padding-bottom: env(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom, 5px);
 }
 
 @media (prefers-color-scheme: light) {

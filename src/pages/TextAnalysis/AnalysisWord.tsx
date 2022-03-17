@@ -16,7 +16,7 @@ const AnalysisWord: React.FC<Props> = ({
   const [visible, setVisible] = useState<boolean>(false);
   const wordRef = useRef<HTMLDivElement>(null);
 
-  const getKanjiFurigana = (letter: string) => {
+  const getKanjiFurigana = (letter: string): string => {
     let a = kuromojiArticle.furigana.find(
       (item: IKuromojiArticle["furigana"]) => {
         if (item.kanji === letter) {
@@ -36,8 +36,8 @@ const AnalysisWord: React.FC<Props> = ({
       className={`word ${kuromojiArticle.engPos}`}
       ref={wordRef}
       onClick={() => {
-        console.log(kuromojiArticle);
         kuromojiArticle.pos !== "記号" && setVisible(true);
+        visible && setVisible(false);
       }}
       onMouseLeave={() => setVisible(false)}
     >
@@ -45,7 +45,7 @@ const AnalysisWord: React.FC<Props> = ({
         <p
           className={`testAfter ${
             kuromojiArticle.warodai.length > 0 ? kuromojiArticle.engPos : ""
-          } ${visible ? "visible" : ""}`}
+          } ${visible && kuromojiArticle.warodai.length > 0 ? "visible" : ""}`}
         >
           <span className="testAfter">
             {kuromojiArticle.surface_form.split("").map((item, i) => {
@@ -67,6 +67,7 @@ const AnalysisWord: React.FC<Props> = ({
                   </span>
                 );
               }
+              return null;
             })}
           </span>
         </p>

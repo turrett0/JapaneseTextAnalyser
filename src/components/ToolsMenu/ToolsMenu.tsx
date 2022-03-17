@@ -3,6 +3,7 @@ import "./ToolsMenu.scss";
 import {useSelector} from "react-redux";
 import useActions from "../../hooks/useActions";
 import {
+  selectKuromojiFilteredResponse,
   selectKuromojiLoading,
   selectPageMode,
   selectRawKuromojiResponse,
@@ -32,15 +33,16 @@ const ToolsMenu: React.FC<Props> = ({
   const {SetPageMode} = useActions();
   const currentPageMode = useSelector(selectPageMode);
   const loading = useSelector(selectKuromojiLoading);
-  const kuromojiResponse = useSelector(selectRawKuromojiResponse);
+  const kuromojiResponse = useSelector(selectKuromojiFilteredResponse);
 
   return (
     <div className="tools-menu">
-      <button
+      {/* <button
         style={{
           alignSelf: "flex-start",
         }}
         onClick={() => {
+          console.log(kuromojiResponse);
           const promptResponse = prompt("Введите имя колоды", "New deck");
           if (promptResponse) {
             csvPrepare(kuromojiResponse, promptResponse);
@@ -48,7 +50,7 @@ const ToolsMenu: React.FC<Props> = ({
         }}
       >
         Экспорт
-      </button>
+      </button> */}
       <label
         className={`tool-item ${showFurigana ? "active" : ""} ${
           editMode || currentPageMode === PageMode.CARDS ? "disabled" : ""

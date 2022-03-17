@@ -14,6 +14,9 @@
   z-index: 100;
   color: var(--color-text);
 
+  //media  adaptive
+
+  //media
   &.popup {
     position: absolute;
   }
@@ -25,14 +28,13 @@
 
   &__inner {
     padding-bottom: 10px;
-    min-height: 94%;
+    // min-height: 93%;
     font-size: 15px;
     padding: 10px;
     color: inherit;
     display: flex;
     flex-direction: column;
     // align-items: center;
-    box-shadow: 0px 8px 18px 0px rgba(34, 60, 80, 0.2);
   }
   &__dictonary-name {
     margin-bottom: 20px;
@@ -51,6 +53,11 @@
       background-color: lightgray;
     }
   }
+
+  &__close {
+    display: none;
+  }
+
   &__derivatives,
   &__phrases,
   &__meanings,
@@ -60,7 +67,7 @@
     border-top: 2px solid gray;
     & span {
       display: block;
-      margin-top: 8px;
+      margin-bottom: 8px;
     }
   }
   &__headline {
@@ -99,5 +106,25 @@
   }
   &.right {
     left: -250px;
+  }
+}
+
+@media (max-width: 550px) {
+  .word-card {
+    box-shadow: 0px -10px 8px 0px rgb(34 60 80 / 20%);
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 70vh;
+    border-radius: 10px 10px 0px 0px;
+
+    &__close {
+      display: flex;
+      justify-content: center;
+    }
+  }
+  .word-card.bottom {
+    top: 30%;
   }
 }

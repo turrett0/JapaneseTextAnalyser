@@ -167,8 +167,8 @@ export const combineVerbHandler = (
 ): IKuromojiArticle[] => {
   return kuromojiResponse.reduce(
     (prevValue: Array<IKuromojiArticle>, curr, i, arr) => {
-      console.log(arr[i + 2]?.surface_form === "ば");
       let tmp = "";
+
       if (curr.pos === "動詞" || curr.pos === "形容詞") {
         if (
           arr[i + 1]?.surface_form === "さ" ||
@@ -230,13 +230,13 @@ export const combineVerbHandler = (
           tmp += arr[i + 6]?.surface_form;
         }
       }
-
       if (
         (tmp === "ます" &&
           curr.basic_form === "いる" &&
           prevValue[i - 2]?.surface_form.includes("ています")) ||
         prevValue[0]?.surface_form.includes("ています") ||
-        (curr.surface_form === "せ" && arr[i + 1].surface_form === "て")
+        (curr.surface_form === "せ" && arr[i + 1].surface_form === "て") ||
+        (curr.basic_form === "いる" && curr.pos_detail_1 === "非自立")
       ) {
         return prevValue;
       } else if (
@@ -254,6 +254,7 @@ export const combineVerbHandler = (
         curr.surface_form !== "ない" &&
         arr[i - 1]?.surface_form !== "がない"
       ) {
+        console.log(tmp);
         return prevValue.concat([
           {
             ...curr,
@@ -261,7 +262,6 @@ export const combineVerbHandler = (
           },
         ]);
       }
-
       return prevValue;
     },
     []

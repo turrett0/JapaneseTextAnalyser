@@ -5,19 +5,16 @@ import WordPopup from "../../components/WordPopup/WordPopup";
 import {isKana, isKanji} from "wanakana";
 
 interface Props {
-  kuromojiArticle: IKuromojiArticle;
+  currentWord: IKuromojiArticle;
   showFurigana?: boolean;
 }
 
-const AnalysisWord: React.FC<Props> = ({
-  kuromojiArticle,
-  showFurigana = false,
-}) => {
+const AnalysisWord: React.FC<Props> = ({currentWord, showFurigana = false}) => {
   const [visible, setVisible] = useState<boolean>(false);
   const wordRef = useRef<HTMLDivElement>(null);
 
   const getKanjiFurigana = (letter: string): string => {
-    let a = kuromojiArticle.furigana.find(
+    let a: IKuromojiArticle | null = currentWord.furigana.find(
       (item: IKuromojiArticle["furigana"]) => {
         if (item.kanji === letter) {
           return item.kanji;
@@ -33,10 +30,11 @@ const AnalysisWord: React.FC<Props> = ({
 
   return (
     <div
-      className={`word ${kuromojiArticle.engPos}`}
+      className={`word ${currentWord.engPos}`}
       ref={wordRef}
       onClick={() => {
-        kuromojiArticle.pos !== "記号" && setVisible(true);
+        console.log(currentWord);
+        currentWord.pos !== "記号" && setVisible(true);
         visible && setVisible(false);
       }}
       onMouseLeave={() => setVisible(false)}
@@ -44,11 +42,11 @@ const AnalysisWord: React.FC<Props> = ({
       <span className="testAfter-wrapper">
         <p
           className={`testAfter ${
-            kuromojiArticle.warodai.length > 0 ? kuromojiArticle.engPos : ""
-          } ${visible && kuromojiArticle.warodai.length > 0 ? "visible" : ""}`}
+            currentWord.warodai.length > 0 ? currentWord.engPos : ""
+          } ${visible && currentWord.warodai.length > 0 ? "visible" : ""}`}
         >
           <span className="testAfter">
-            {kuromojiArticle.surface_form.split("").map((item, i) => {
+            {currentWord.surface_form.split("").map((item, i) => {
               if (isKana(item)) {
                 return <span>{item}</span>;
               } else if (isKanji(item)) {
@@ -57,8 +55,8 @@ const AnalysisWord: React.FC<Props> = ({
                     {showFurigana && (
                       <span className={`furigana-wrapper show`}>
                         <span className="furigana">
-                          {kuromojiArticle.furigana &&
-                            kuromojiArticle.furigana?.length > 0 &&
+                          {currentWord.furigana &&
+                            currentWord.furigana?.length > 0 &&
                             getKanjiFurigana(item)}
                         </span>
                       </span>
@@ -67,7 +65,7 @@ const AnalysisWord: React.FC<Props> = ({
                   </span>
                 );
               }
-              return null;
+              return currentWord.surface_form;
             })}
           </span>
         </p>
@@ -76,7 +74,7 @@ const AnalysisWord: React.FC<Props> = ({
       <WordPopup
         visible={visible}
         wordRef={wordRef}
-        currentArticle={kuromojiArticle}
+        currentArticle={currentWord}
         role={"popup"}
       />
     </div>

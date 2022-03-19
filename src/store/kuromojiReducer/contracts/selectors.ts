@@ -17,12 +17,13 @@ export const selectKuromojiFilteredResponse = (
 export const selectKuromojidResponseWithEngPos = (
   state: IRootState
 ): KuromojiStore["kuromojiResponse"] =>
-  setEngWordPos(
-    setDefaultConjugation(
-      combineVerbHandler(state.kuromojiReducer.kuromojiResponse)
-    )
+  setDefaultConjugation(
+    combineVerbHandler(setEngWordPos(state.kuromojiReducer.kuromojiResponse))
 
-    // combineVerbHandler(state.kuromojiReducer.kuromojiResponse)
+    // setEngWordPos(
+    //   setDefaultConjugation(
+    //     combineVerbHandler(state.kuromojiReducer.kuromojiResponse)
+    //   )
   );
 
 export const selectRawKuromojiResponse = (

@@ -77,7 +77,7 @@ const TextAnalysis: React.FC = () => {
           kuromojiArticles.map((kuromojiArticle: IKuromojiArticle) => (
             <AnalysisWord
               key={uuid()}
-              kuromojiArticle={kuromojiArticle}
+              currentWord={kuromojiArticle}
               showFurigana={showFurigana}
             />
           ))

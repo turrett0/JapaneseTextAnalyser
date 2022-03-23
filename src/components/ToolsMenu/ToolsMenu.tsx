@@ -18,7 +18,7 @@ import {AiFillSave, AiOutlineDownload} from "react-icons/ai";
 import {AiFillEdit} from "react-icons/ai";
 import {CgCardSpades} from "react-icons/cg";
 import {MdTextFormat} from "react-icons/md";
-import FuriganaIcon from "../../assets/furigana.svg";
+import {ReactComponent as FuriganaIcon} from "../../assets/furigana.svg";
 
 type Props = {
   setShowFurigana: React.Dispatch<React.SetStateAction<boolean>>;
@@ -64,7 +64,7 @@ const ToolsMenu: React.FC<Props> = ({
           checked={showFurigana}
           onChange={() => setShowFurigana((prev) => !prev)}
         />
-        <img
+        {/* <img
           src={FuriganaIcon}
           alt=""
           style={{
@@ -72,7 +72,8 @@ const ToolsMenu: React.FC<Props> = ({
             height: "20px",
             display: "block",
           }}
-        />
+        /> */}
+        <FuriganaIcon />
       </label>
 
       <label

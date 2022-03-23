@@ -128,7 +128,6 @@ export const setEngWordPos = (
     let kanjies = kuromojiArticle.surface_form
       .split("")
       .filter((item: string) => isKanji(item));
-    console.log(kanjies);
     toHiragana(kuromojiArticle.reading)
       .split("")
       .forEach((letter, i, arr) => {
@@ -140,7 +139,6 @@ export const setEngWordPos = (
           setFurigana.push(letter);
         }
       });
-    console.log(setFurigana);
     setFurigana = setFurigana
       .join("")
       .split("|")
@@ -172,6 +170,7 @@ export const combineVerbHandler = (
   return kuromojiResponse.reduce(
     (prevValue: Array<IKuromojiArticle>, curr, i, arr) => {
       let tmp = "";
+      console.log(arr[i + 1]?.surface_form);
 
       if (
         (curr.surface_form !== curr.basic_form && curr.pos === "動詞") ||
@@ -185,6 +184,7 @@ export const combineVerbHandler = (
           arr[i + 1]?.surface_form === "て" ||
           arr[i + 1]?.surface_form === "で" ||
           arr[i + 1]?.surface_form === "ない" ||
+          arr[i + 1]?.surface_form === "なく" ||
           arr[i + 1]?.surface_form === "なかっ" ||
           arr[i + 1]?.basic_form === "ます" ||
           arr[i + 1]?.surface_form === "られ" ||
@@ -197,10 +197,11 @@ export const combineVerbHandler = (
           arr[i + 1]?.surface_form === "せ" ||
           arr[i + 1]?.surface_form === "ば"
         ) {
+          console.log(arr[i + 1].surface_form);
           tmp += arr[i + 1]?.surface_form;
         }
         if (
-          arr[i + 2]?.basic_form === "いる" ||
+          arr[i + 2]?.basic_form === "なく" ||
           arr[i + 2]?.surface_form === "た" ||
           arr[i + 2]?.surface_form === "ん" ||
           arr[i + 2]?.surface_form === "た" ||
@@ -211,9 +212,11 @@ export const combineVerbHandler = (
           arr[i + 2]?.surface_form === "が" ||
           arr[i + 2]?.surface_form === "て"
         ) {
+          console.log(arr[i + 2].surface_form);
           tmp += arr[i + 2]?.surface_form;
         }
         if (
+          arr[i + 3]?.surface_form === "なく" ||
           arr[i + 3]?.surface_form === "た" ||
           arr[i + 3]?.surface_form === "ます" ||
           arr[i + 3]?.surface_form === "ませ" ||
@@ -240,6 +243,9 @@ export const combineVerbHandler = (
           tmp += arr[i + 6]?.surface_form;
         }
       }
+      if (curr.pos === "名詞" && curr.pos_detail_1 === "接尾") {
+        return prevValue;
+      }
 
       if (
         (tmp.includes("てい") &&
@@ -255,7 +261,6 @@ export const combineVerbHandler = (
       if (
         curr.surface_form !== "て" &&
         curr.conjugated_type !== "特殊・マス" &&
-        curr.conjugated_type !== "特殊・タ" &&
         curr.conjugated_type !== "特殊・ナイ" &&
         curr.conjugated_form !== "連用ニ接続" &&
         // curr.pos_detail_1 !== "接尾" &&
@@ -268,6 +273,7 @@ export const combineVerbHandler = (
         arr[i - 1]?.surface_form !== "がない" &&
         curr.pos_detail_1 !== "非自立"
       ) {
+        console.log(tmp);
         return prevValue.concat([
           {
             ...curr,

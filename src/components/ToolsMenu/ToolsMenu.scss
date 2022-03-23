@@ -8,6 +8,10 @@
 }
 
 .tool-item {
+  & svg {
+    fill: var(--color-text);
+  }
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -30,6 +34,11 @@
     background: var(--button-color);
     color: var(--inverted-color);
   }
+
+  &.active svg {
+    fill: var(--inverted-color);
+  }
+
   &.disabled {
     border: 2px solid transparent;
     background-color: gray;
@@ -38,6 +47,10 @@
   &.button {
     margin: 0;
     padding: 5px 10px;
+
+    & svg {
+      fill: var(--inverted-color);
+    }
 
     &:disabled {
       border: 2px solid transparent;

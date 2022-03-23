@@ -45,7 +45,7 @@ const WordPopup: React.FC<Props> = ({
   return (
     <>
       {visible && currentArticle.warodai.length !== 0 && (
-        <div className={`word-card ${role} ${getCardPosition()}`}>
+        <div className={`word-card ${role} ${getCardPosition()}`} key={uuid()}>
           <div className="word-card__close">
             {role !== "card" && (
               <button

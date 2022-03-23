@@ -11,17 +11,6 @@ function App() {
           <Route path="/" element={<Layout />}>
             <Route index element={<TextAnalysis />} />
           </Route>
-          <Route
-            path="/test/*"
-            element={
-              <>
-                <div>Test</div>
-                <Routes>
-                  <Route path="shrek" element={<div>Shrek</div>} />
-                </Routes>
-              </>
-            }
-          ></Route>
         </Routes>
       </Router>
     </>

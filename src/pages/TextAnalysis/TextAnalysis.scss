@@ -1,0 +1,38 @@
+.words-analysis {
+  width: 89%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+
+  margin: 60px auto;
+  &__edit {
+    cursor: pointer;
+  }
+  @media (max-height: 896px) {
+    & {
+      margin: 30px auto;
+    }
+  }
+}
+
+.words {
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px 0;
+  border: 2px solid transparent;
+  transition: 0.1s all;
+  margin-bottom: 50px;
+  height: 100%;
+  &.FULLTEXT {
+    max-width: 1200px;
+  }
+}
+textarea {
+  padding: 0;
+}
+
+.analysisFormWrapper {
+  width: 100%;
+  height: 100%;
+}

@@ -2,8 +2,12 @@ import {call, put, takeLatest} from "redux-saga/effects";
 import {fetchKuromoji} from "../../../services/api/kuromojiApi";
 import {IFetchKuromojiAction} from "../actionCreator";
 import {KuromojiActionsObject} from "../actionCreator";
-import {IKuromojiArticle, KuromojiActionTypes} from "../contracts/state";
-const {SetKuromojiResponseAction} = KuromojiActionsObject;
+import {
+  IKuromojiArticle,
+  KuromojiActionTypes,
+  LoadingStates,
+} from "../contracts/state";
+const {SetKuromojiResponseAction, SetLoadingState} = KuromojiActionsObject;
 
 export function* KuromojiSaga() {
   yield takeLatest(
@@ -18,5 +22,6 @@ export function* getKuromojiArticles({payload}: IFetchKuromojiAction) {
     yield put(SetKuromojiResponseAction(data));
   } catch (error) {
     alert(error);
+    yield put(SetLoadingState(LoadingStates.ERORR));
   }
 }

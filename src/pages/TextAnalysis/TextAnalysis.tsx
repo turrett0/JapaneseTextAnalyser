@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
-import "./AnalysisWord.scss";
+import "./TextAnalysis.scss";
 import {useSelector} from "react-redux";
-import AnalysisWord from "./AnalysisWord";
+import AnalysisWord from "./TextAnalysisWord/AnalysisWord";
 import {v4 as uuid} from "uuid";
 import _ from "underscore";
 import TextArea from "../../components/TextArea/TextArea";
@@ -25,6 +25,7 @@ const TextAnalysis: React.FC = () => {
   const [editMode, setEditMode] = useState<boolean>(false);
   const currentText = useSelector(selectCurrentText);
   const pageMode = useSelector(selectPageMode);
+  const loadingState = useSelector(selectKuromojiLoading);
   const kuromojiArticles = useSelector(
     selectKuromojidResponseWithEngPos,
     _.isEqual
@@ -65,9 +66,9 @@ const TextAnalysis: React.FC = () => {
         className={`words ${
           editMode || currentText.length === 0 ? "edit" : ""
         } ${pageMode}`}
-        onDoubleClick={() =>
-          !editMode && pageMode === PageMode.FULLTEXT && setEditMode(true)
-        }
+        // onDoubleClick={() =>
+        //   !editMode && pageMode === PageMode.FULLTEXT && setEditMode(true)
+        // }
       >
         {editMode || currentText.length === 0 ? (
           <div className="analysisFormWrapper">

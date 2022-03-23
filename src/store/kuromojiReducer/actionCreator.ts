@@ -2,6 +2,7 @@ import {
   IKuromojiArticle,
   KuromojiActionTypes,
   KuromojiStore,
+  LoadingStates,
   PageMode,
 } from "./contracts/state";
 
@@ -30,7 +31,13 @@ export interface ISetPageMode {
   payload: string;
 }
 
+export interface ISetLoadingState {
+  type: KuromojiActionTypes.SET_LOADING_STATE;
+  payload: LoadingStates;
+}
+
 //Actions
+
 export const KuromojiActionsObject = {
   FetchKuromojiAction: (payload: string): IFetchKuromojiAction => ({
     type: KuromojiActionTypes.FETCH_KUROMOJI_RESPONSE,
@@ -56,6 +63,10 @@ export const KuromojiActionsObject = {
     type: KuromojiActionTypes.SET_PAGE_MODE,
     payload,
   }),
+  SetLoadingState: (payload: LoadingStates): ISetLoadingState => ({
+    type: KuromojiActionTypes.SET_LOADING_STATE,
+    payload,
+  }),
 };
 
 export type KuromojiActions =
@@ -63,4 +74,5 @@ export type KuromojiActions =
   | IFetchKuromojiAction
   | ISetCurrentText
   | ISetCurrentWord
-  | ISetPageMode;
+  | ISetPageMode
+  | ISetLoadingState;

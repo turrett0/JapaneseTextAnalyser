@@ -14,9 +14,10 @@
   z-index: 100;
   color: var(--color-text);
 
-  //media  adaptive
+  &__article {
+    border-bottom: 2px solid gray;
+  }
 
-  //media
   &.popup {
     position: absolute;
   }
@@ -68,6 +69,15 @@
     & span {
       display: block;
       margin-bottom: 8px;
+    }
+  }
+  &__phrases {
+  }
+
+  &__meanings {
+    border: none;
+    & span {
+      font-weight: bold;
     }
   }
   &__headline {

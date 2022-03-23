@@ -1,30 +1,9 @@
-@import "../../App.scss";
-// .furigana {
-//   font-size: 10px;
-//   display: inline-block;
-//   width: 100%;
-//   height: 13px;
-// }
+@import "../../../App.scss";
 
 .word {
   padding-top: 7px;
   display: inline;
   padding-bottom: 8px;
-
-  .furigana-wrapper {
-    padding-left: 4px;
-    min-width: 30px;
-    position: absolute;
-    top: -3px;
-    color: var(--color-text);
-    visibility: visible;
-    display: block;
-    height: 11px;
-    font-size: 9px;
-  }
-  .furigana.hidden {
-    opacity: 0;
-  }
 }
 
 .word-analysis__menu {
@@ -36,42 +15,8 @@
   align-items: center;
 }
 
-.words-analysis {
-  width: 89%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  position: relative;
-
-  margin: 60px auto;
-  &__edit {
-    cursor: pointer;
-  }
-  @media (max-height: 896px) {
-    & {
-      margin: 30px auto;
-    }
-  }
-}
-
 button {
   @include defaultButton;
-}
-
-.words {
-  width: 100%;
-  margin: 0 auto;
-  padding: 20px 0;
-  border: 2px solid transparent;
-  transition: 0.1s all;
-  margin-bottom: 50px;
-  height: 100%;
-  &.FULLTEXT {
-    max-width: 1200px;
-  }
-}
-textarea {
-  padding: 0;
 }
 
 .words.edit {
@@ -91,12 +36,12 @@ textarea {
   position: relative;
   color: var(--color-text);
 }
-.testAfter {
+.analysis-word {
   display: flex;
   padding: 0;
   margin: 0;
   // height: 25px;
-  overflow: hidden;
+  // overflow: hidden;
   cursor: pointer;
 
   &.verb {
@@ -129,18 +74,14 @@ textarea {
   }
 }
 
-.analysisFormWrapper {
-  width: 100%;
-  height: 100%;
-}
-.testAfter:hover {
+.analysis-word:hover {
   color: rgb(0, 238, 91);
 }
 
-.testAfter.visible {
+.analysis-word.visible {
   color: rgb(0, 238, 91);
 }
 
-.testAfter.disabled {
+.analysis-word.disabled {
   color: red;
 }

@@ -1,0 +1,15 @@
+.furigana-wrapper {
+  width: 250%;
+  padding-left: 2px;
+  top: -8px;
+  word-wrap: normal;
+  position: absolute;
+  color: var(--color-text);
+  visibility: visible;
+  display: block;
+  height: 11px;
+  font-size: 8px;
+  &.hidden {
+    opacity: 0;
+  }
+}

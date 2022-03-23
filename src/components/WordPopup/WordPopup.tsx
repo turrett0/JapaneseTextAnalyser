@@ -72,25 +72,41 @@ const WordPopup: React.FC<Props> = ({
             )}
             {currentArticle.warodai.map(
               (warodaiArticle: IWarodaiArticle, warodaiIndex, arr) => (
-                <div key={uuid()}>
+                <div className="word-card__article" key={uuid()}>
                   <div className="word-card__main">
                     {`${arr.length > 1 ? `${warodaiIndex + 1}.` : ""} `}
                     {warodaiArticle.word.length !== 0 &&
                       `[${warodaiArticle.word}]: `}
                     {` ${warodaiArticle.wordReadings.kana} | ${warodaiArticle.wordReadings.kiriji} `}
                   </div>
-                  <div className="word-card__meanings">
-                    {warodaiArticle.meanings.map((meaning, i, arr) => (
-                      <span
-                        key={uuid()}
-                        dangerouslySetInnerHTML={{
-                          __html: `${
-                            arr.length > 1 ? `${i + 1}.` : ""
-                          } ${meaning} `,
-                        }}
-                      ></span>
-                    ))}
-                  </div>
+                  {warodaiArticle.meanings.map((meaning, i, arr) => (
+                    <>
+                      <div className="word-card__meanings">
+                        <span
+                          key={uuid()}
+                          dangerouslySetInnerHTML={{
+                            __html: `${arr.length > 1 ? `${i + 1}.` : ""} ${
+                              meaning.meaning
+                            }`,
+                          }}
+                        />
+                      </div>
+                      {meaning.phrases.length > 0 && (
+                        <div className="word-card__phrases">
+                          {meaning.phrases.map((phrase) => (
+                            <span
+                              className="word-card__phrase"
+                              key={uuid()}
+                              dangerouslySetInnerHTML={{
+                                __html: `・ ${phrase}`,
+                              }}
+                            />
+                          ))}
+                        </div>
+                      )}
+                    </>
+                  ))}
+
                   {warodaiArticle.derivatives.length > 0 && (
                     <div className="word-card__derivatives">
                       {warodaiArticle.derivatives.map((derivative, i, arr) => (
@@ -101,21 +117,7 @@ const WordPopup: React.FC<Props> = ({
                               arr.length > 1 ? `${i + 1}.` : ""
                             } ${derivative} `,
                           }}
-                        ></span>
-                      ))}
-                    </div>
-                  )}
-                  {warodaiArticle.phrases.length > 0 && (
-                    <div className="word-card__phrases">
-                      {warodaiArticle.phrases.map((phrase, i, arr) => (
-                        <span
-                          key={uuid()}
-                          dangerouslySetInnerHTML={{
-                            __html: `${
-                              arr.length > 1 ? `${i + 1}.` : ""
-                            } ${phrase} `,
-                          }}
-                        ></span>
+                        />
                       ))}
                     </div>
                   )}

@@ -35,6 +35,9 @@ const kuromojiReducer = produce(
       case KuromojiActionTypes.SET_PAGE_MODE:
         draft.pageMode = action.payload;
         break;
+      case KuromojiActionTypes.SET_LOADING_STATE:
+        draft.loadingState = action.payload;
+        break;
       default:
         break;
     }

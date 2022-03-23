@@ -14,6 +14,11 @@ import {
 } from "../../store/kuromojiReducer/contracts/state";
 import Spinner from "../../assets/spinner.gif";
 import {csvPrepare} from "../../services/csvExport/csvExport";
+import {AiFillSave, AiOutlineDownload} from "react-icons/ai";
+import {AiFillEdit} from "react-icons/ai";
+import {CgCardSpades} from "react-icons/cg";
+import {MdTextFormat} from "react-icons/md";
+import FuriganaIcon from "../../assets/furigana.svg";
 
 type Props = {
   setShowFurigana: React.Dispatch<React.SetStateAction<boolean>>;
@@ -37,20 +42,17 @@ const ToolsMenu: React.FC<Props> = ({
 
   return (
     <div className="tools-menu">
-      {/* <button
-        style={{
-          alignSelf: "flex-start",
-        }}
+      <button
+        className="tool-item button"
         onClick={() => {
-          console.log(kuromojiResponse);
           const promptResponse = prompt("Введите имя колоды", "New deck");
           if (promptResponse) {
             csvPrepare(kuromojiResponse, promptResponse);
           }
         }}
       >
-        Экспорт
-      </button> */}
+        <AiOutlineDownload />
+      </button>
       <label
         className={`tool-item ${showFurigana ? "active" : ""} ${
           editMode || currentPageMode === PageMode.CARDS ? "disabled" : ""
@@ -62,7 +64,15 @@ const ToolsMenu: React.FC<Props> = ({
           checked={showFurigana}
           onChange={() => setShowFurigana((prev) => !prev)}
         />
-        Фуригана
+        <img
+          src={FuriganaIcon}
+          alt=""
+          style={{
+            width: "20px",
+            height: "20px",
+            display: "block",
+          }}
+        />
       </label>
 
       <label
@@ -70,7 +80,7 @@ const ToolsMenu: React.FC<Props> = ({
           currentPageMode === PageMode.FULLTEXT ? "active" : ""
         }  ${editMode ? "disabled" : ""}`}
       >
-        Текст
+        <MdTextFormat />
         <input
           disabled={editMode}
           type="radio"
@@ -84,7 +94,7 @@ const ToolsMenu: React.FC<Props> = ({
           currentPageMode === PageMode.CARDS ? "active" : ""
         }  ${editMode ? "disabled" : ""}`}
       >
-        Карточки
+        <CgCardSpades />
         <input
           disabled={editMode}
           type="radio"
@@ -115,9 +125,9 @@ const ToolsMenu: React.FC<Props> = ({
             }}
           />
         ) : !editMode ? (
-          "Править"
+          <AiFillEdit />
         ) : (
-          "Сохранить"
+          <AiFillSave />
         )}
       </button>
     </div>

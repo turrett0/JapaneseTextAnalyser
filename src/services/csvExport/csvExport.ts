@@ -7,7 +7,12 @@ export const csvPrepare = (
   let rows: Array<Array<string>> = [];
 
   kuromojiResponse.forEach((item: IKuromojiArticle) => {
-    rows.push([item.basic_form, item.reading, item.pos]);
+    rows.push([
+      item.basic_form,
+      item.reading,
+      item.pos,
+      item.warodai[0].meanings[0].meaning,
+    ]);
   });
 
   var processRow = function (row: Array<any>) {

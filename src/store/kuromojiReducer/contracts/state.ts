@@ -27,7 +27,11 @@ export interface IWarodaiArticle {
   };
   phrases: Array<string>;
   derivatives: Array<string>;
-  meanings: Array<string>;
+  meanings: Array<{
+    meaning: string;
+    phrases: Array<string>;
+    clarifications: string;
+  }>;
   id: number;
 }
 
@@ -78,4 +82,5 @@ export enum KuromojiActionTypes {
   SET_CURRENT_TEXT = "SET_CURRENT_TEXT",
   SET_CURRENT_WORD = "SET_CURRENT_WORD",
   SET_PAGE_MODE = "SET_PAGE_MODE",
+  SET_LOADING_STATE = "SET_LOADING_STATE",
 }

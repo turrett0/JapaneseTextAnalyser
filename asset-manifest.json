@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/JapaneseTextAnalyser/static/css/main.720a84bc.css",
-    "main.js": "/JapaneseTextAnalyser/static/js/main.c651f33c.js",
+    "main.css": "/JapaneseTextAnalyser/static/css/main.7a235959.css",
+    "main.js": "/JapaneseTextAnalyser/static/js/main.ca940317.js",
     "static/media/spinner.gif": "/JapaneseTextAnalyser/static/media/spinner.a1a996746e5e48352c81.gif",
     "static/media/furigana.svg": "/JapaneseTextAnalyser/static/media/furigana.ed85f1c2b1cdf7a20fdfaf0d3f7d7a51.svg",
     "index.html": "/JapaneseTextAnalyser/index.html",
-    "main.720a84bc.css.map": "/JapaneseTextAnalyser/static/css/main.720a84bc.css.map",
-    "main.c651f33c.js.map": "/JapaneseTextAnalyser/static/js/main.c651f33c.js.map"
+    "main.7a235959.css.map": "/JapaneseTextAnalyser/static/css/main.7a235959.css.map",
+    "main.ca940317.js.map": "/JapaneseTextAnalyser/static/js/main.ca940317.js.map"
   },
   "entrypoints": [
-    "static/css/main.720a84bc.css",
-    "static/js/main.c651f33c.js"
+    "static/css/main.7a235959.css",
+    "static/js/main.ca940317.js"
   ]
 }

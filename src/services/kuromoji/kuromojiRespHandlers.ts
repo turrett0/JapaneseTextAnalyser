@@ -170,7 +170,6 @@ export const combineVerbHandler = (
   return kuromojiResponse.reduce(
     (prevValue: Array<IKuromojiArticle>, curr, i, arr) => {
       let tmp = "";
-      console.log(arr[i + 1]?.surface_form);
 
       if (
         (curr.surface_form !== curr.basic_form && curr.pos === "動詞") ||
@@ -197,7 +196,6 @@ export const combineVerbHandler = (
           arr[i + 1]?.surface_form === "せ" ||
           arr[i + 1]?.surface_form === "ば"
         ) {
-          console.log(arr[i + 1].surface_form);
           tmp += arr[i + 1]?.surface_form;
         }
         if (
@@ -210,9 +208,9 @@ export const combineVerbHandler = (
           arr[i + 2]?.surface_form === "ませ" ||
           arr[i + 2]?.surface_form === "られ" ||
           arr[i + 2]?.surface_form === "が" ||
-          arr[i + 2]?.surface_form === "て"
+          arr[i + 2]?.surface_form === "て" ||
+          arr[i + 2]?.basic_form === "いる"
         ) {
-          console.log(arr[i + 2].surface_form);
           tmp += arr[i + 2]?.surface_form;
         }
         if (
@@ -243,7 +241,17 @@ export const combineVerbHandler = (
           tmp += arr[i + 6]?.surface_form;
         }
       }
-      if (curr.pos === "名詞" && curr.pos_detail_1 === "接尾") {
+
+      if (curr.pos_detail_1 === "非自立" && curr.surface_form !== "もの") {
+        return prevValue;
+      }
+
+      if (
+        curr.pos === "助動詞" &&
+        arr[i - 1]?.pos_detail_1 !== "係助詞" &&
+        curr.conjugated_type === "特殊・ナイ"
+      ) {
+        console.log(curr);
         return prevValue;
       }
 
@@ -253,7 +261,14 @@ export const combineVerbHandler = (
           curr.pos_detail_1 === "非自立" &&
           curr.pos !== "名詞") ||
         (arr[i - 1]?.basic_form === "いる" && curr.surface_form === "ます") ||
-        (curr.surface_form === "せ" && curr.pos_detail_1 === "接尾")
+        (curr.surface_form === "せ" && curr.pos_detail_1 === "接尾") ||
+        (curr.pos_detail_1 === "非自立" &&
+          curr.pos_detail_2 !== "形容動詞語幹" &&
+          curr.pos !== "動詞" &&
+          curr.surface_form !== "こと" &&
+          curr.surface_form !== "もの") ||
+        (curr.pos === "名詞" && curr.pos_detail_1 === "接尾") ||
+        (curr.pos === "助動詞" && curr.conjugated_type === "特殊・タ")
       ) {
         return prevValue;
       }
@@ -261,7 +276,6 @@ export const combineVerbHandler = (
       if (
         curr.surface_form !== "て" &&
         curr.conjugated_type !== "特殊・マス" &&
-        curr.conjugated_type !== "特殊・ナイ" &&
         curr.conjugated_form !== "連用ニ接続" &&
         // curr.pos_detail_1 !== "接尾" &&
         curr.basic_form !== "られる" &&
@@ -269,11 +283,8 @@ export const combineVerbHandler = (
         curr.surface_form !== "せた" &&
         curr.surface_form !== "せて" &&
         curr.conjugated_type !== "不変化型" &&
-        curr.surface_form !== "ない" &&
-        arr[i - 1]?.surface_form !== "がない" &&
-        curr.pos_detail_1 !== "非自立"
+        arr[i - 1]?.surface_form !== "がない"
       ) {
-        console.log(tmp);
         return prevValue.concat([
           {
             ...curr,

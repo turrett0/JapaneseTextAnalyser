@@ -2,8 +2,9 @@ import React, {useRef, useState} from "react";
 import "./AnalysisWord.scss";
 import {IKuromojiArticle} from "../../../store/kuromojiReducer/contracts/state";
 import WordPopup from "../../../components/WordPopup/WordPopup";
-import {isKana, isKanji} from "wanakana";
+import {isKanji} from "wanakana";
 import Furigana from "../../../components/furigana/Furigana";
+import {v4 as uuid} from "uuid";
 
 interface Props {
   currentWord: IKuromojiArticle;
@@ -37,6 +38,7 @@ const AnalysisWord: React.FC<Props> = ({currentWord, showFurigana = false}) => {
                   if (isKanji(letter)) {
                     return (
                       <span
+                        key={uuid()}
                         style={{
                           position: "relative",
                         }}

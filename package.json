@@ -1,7 +1,7 @@
 {
   "name": "jta",
   "version": "1.0.1",
-  "homepage": "https://gitname.github.io/react-gh-pages",
+  "homepage": "https://turrett0.github.io/JapaneseTextAnalyser/",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.2",

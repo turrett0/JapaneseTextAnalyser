@@ -11,7 +11,7 @@ export const csvPrepare = (
       item.basic_form,
       item.reading,
       item.pos,
-      item.warodai[0].meanings[0].meaning,
+      item.warodai[0]?.meanings[0]?.meaning || "",
     ]);
   });
 

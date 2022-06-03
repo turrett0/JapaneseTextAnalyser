@@ -1,7 +1,8 @@
 .furigana-wrapper {
-  width: 280%;
+  width: 100%;
+  word-break: keep-all;
   padding-left: 2px;
-  top: -8px;
+  top: 0;
   word-wrap: normal;
   position: absolute;
   color: var(--color-text);

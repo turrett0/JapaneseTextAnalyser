@@ -15,7 +15,7 @@ const Furigana: React.FC<Props> = ({currentWord, letter}) => {
   };
 
   return (
-    <span className={`furigana-wrapper show`}>
+    <span className={`furigana-wrapper`}>
       <span className="furigana">
         {currentWord.furigana &&
           currentWord.furigana?.length > 0 &&

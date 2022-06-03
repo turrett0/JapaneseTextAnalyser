@@ -10,7 +10,7 @@ const TextArea: React.FC<any> = ({...props}) => {
   const currentText = useSelector(selectCurrentText);
   const [textAreaValue, setTextAreaValue] = useState<string>(currentText);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
-  const debounce = useCallback(
+  const debouncedFetchHandler = useCallback(
     _.debounce((e: React.ChangeEvent<HTMLTextAreaElement>) => {
       if (textAreaValue.trim() !== e.target.value.trim()) {
         FetchKuromojiAction(e.target.value);
@@ -33,7 +33,7 @@ const TextArea: React.FC<any> = ({...props}) => {
     <textarea
       onChange={(e) => {
         setTextAreaValue(e.target.value);
-        debounce(e);
+        debouncedFetchHandler(e);
       }}
       id="custom__text-area"
       className="search__input"

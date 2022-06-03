@@ -71,8 +71,6 @@
       margin-bottom: 8px;
     }
   }
-  &__phrases {
-  }
 
   &__meanings {
     border: none;
@@ -100,8 +98,6 @@
     cursor: pointer;
   }
   &-card.visible {
-    // left: -150px;
-
     display: block;
   }
 

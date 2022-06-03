@@ -4,6 +4,12 @@
   padding-top: 7px;
   display: inline;
   padding-bottom: 8px;
+  display: inline-block;
+  font-size: 20px;
+  color: black;
+  font-weight: 800;
+  position: relative;
+  color: var(--color-text);
 }
 
 .word-analysis__menu {
@@ -28,20 +34,10 @@ button {
   overflow: hidden;
 }
 
-.word {
-  display: inline-block;
-  font-size: 20px;
-  color: black;
-  font-weight: 800;
-  position: relative;
-  color: var(--color-text);
-}
 .analysis-word {
   display: flex;
   padding: 0;
   margin: 0;
-  // height: 25px;
-  // overflow: hidden;
   cursor: pointer;
 
   &.verb {

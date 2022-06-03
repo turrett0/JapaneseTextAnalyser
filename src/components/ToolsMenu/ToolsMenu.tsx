@@ -6,7 +6,6 @@ import {
   selectKuromojiFilteredResponse,
   selectKuromojiLoading,
   selectPageMode,
-  selectRawKuromojiResponse,
 } from "../../store/kuromojiReducer/contracts/selectors";
 import {
   LoadingStates,
@@ -46,9 +45,7 @@ const ToolsMenu: React.FC<Props> = ({
         className="tool-item button"
         onClick={() => {
           const promptResponse = prompt("Введите имя колоды", "New deck");
-          if (promptResponse) {
-            csvPrepare(kuromojiResponse, promptResponse);
-          }
+          if (promptResponse) csvPrepare(kuromojiResponse, promptResponse);
         }}
       >
         <AiOutlineDownload />
@@ -64,15 +61,7 @@ const ToolsMenu: React.FC<Props> = ({
           checked={showFurigana}
           onChange={() => setShowFurigana((prev) => !prev)}
         />
-        {/* <img
-          src={FuriganaIcon}
-          alt=""
-          style={{
-            width: "20px",
-            height: "20px",
-            display: "block",
-          }}
-        /> */}
+
         <FuriganaIcon />
       </label>
 
@@ -87,7 +76,7 @@ const ToolsMenu: React.FC<Props> = ({
           type="radio"
           name="mode-choice"
           checked={currentPageMode === PageMode.FULLTEXT}
-          onChange={(e) => SetPageMode(PageMode.FULLTEXT)}
+          onChange={() => SetPageMode(PageMode.FULLTEXT)}
         />
       </label>
       <label

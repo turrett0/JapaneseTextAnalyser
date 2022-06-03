@@ -33,7 +33,6 @@ export const csvPrepare = (
   var csvFile = "";
   if (rows !== undefined) {
     for (var i = 0; i < rows.length; i++) {
-      console.log(rows);
       csvFile += processRow(rows[i]);
     }
   }

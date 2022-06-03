@@ -54,7 +54,7 @@ const TextAnalysis: React.FC = () => {
 
   return (
     //Menu above words
-    <div className="words-analysis">
+    <div className="analysis__words">
       <ToolsMenu
         showFurigana={showFurigana}
         setShowFurigana={setShowFurigana}
@@ -71,7 +71,7 @@ const TextAnalysis: React.FC = () => {
         // }
       >
         {editMode || currentText.length === 0 ? (
-          <div className="analysisFormWrapper">
+          <div className="analysis__form__wrapper">
             <TextArea placeholder="Напишите что-нибудь..." />
           </div>
         ) : pageMode === PageMode.FULLTEXT ? (

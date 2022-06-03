@@ -13,6 +13,7 @@ interface Props {
 
 const AnalysisWord: React.FC<Props> = ({currentWord, showFurigana = false}) => {
   const [visible, setVisible] = useState<boolean>(false);
+  const [popupVisible, setPopUpVisible] = useState<boolean>(false);
   const wordRef = useRef<HTMLDivElement>(null);
 
   return (
@@ -20,11 +21,10 @@ const AnalysisWord: React.FC<Props> = ({currentWord, showFurigana = false}) => {
       className={`word ${currentWord.engPos}`}
       ref={wordRef}
       onClick={() => {
-        console.log(currentWord);
-        currentWord.pos !== "記号" && setVisible(true);
-        visible && setVisible(false);
+        console.log(visible);
+        currentWord.pos !== "記号" && setPopUpVisible(true);
       }}
-      onMouseLeave={() => setVisible(false)}
+      onMouseLeave={() => setPopUpVisible(false)}
     >
       <span className="analysis-word-wrapper">
         <p
@@ -37,12 +37,7 @@ const AnalysisWord: React.FC<Props> = ({currentWord, showFurigana = false}) => {
               ? currentWord.surface_form.split("").map((letter, i) => {
                   if (isKanji(letter)) {
                     return (
-                      <span
-                        key={uuid()}
-                        style={{
-                          position: "relative",
-                        }}
-                      >
+                      <span key={uuid()}>
                         {showFurigana && (
                           <Furigana letter={letter} currentWord={currentWord} />
                         )}
@@ -50,7 +45,7 @@ const AnalysisWord: React.FC<Props> = ({currentWord, showFurigana = false}) => {
                       </span>
                     );
                   } else {
-                    return <span>{letter}</span>;
+                    return <span key={uuid()}>{letter}</span>;
                   }
                 })
               : currentWord.surface_form}
@@ -59,7 +54,8 @@ const AnalysisWord: React.FC<Props> = ({currentWord, showFurigana = false}) => {
       </span>
 
       <WordPopup
-        visible={visible}
+        visible={popupVisible}
+        setVisible={setPopUpVisible}
         wordRef={wordRef}
         currentArticle={currentWord}
         role={"popup"}

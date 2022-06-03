@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Fragment, useState} from "react";
 import "./WordPopup.scss";
 import {
   IKuromojiArticle,
@@ -8,38 +8,38 @@ import {v4 as uuid} from "uuid";
 
 type Props = {
   visible?: boolean;
+  setVisible?: (state: boolean) => void;
   currentArticle: IKuromojiArticle;
   wordRef?: React.RefObject<HTMLDivElement>;
   role?: string;
-  setVisible?: (value: React.SetStateAction<boolean>) => void;
 };
 
 const WordPopup: React.FC<Props> = ({
   visible = true,
+  setVisible,
   currentArticle,
   wordRef,
   role = "",
-  setVisible,
 }) => {
   const getCardPosition = () => {
-    let tmp = "";
+    let cardPosition = "";
     if (wordRef && wordRef.current) {
       if (wordRef.current.getBoundingClientRect().left < 400) {
-        tmp += "left ";
+        cardPosition += "left ";
       }
       if (
         window.innerWidth - wordRef.current.getBoundingClientRect().right <
         400
       ) {
-        tmp += "right ";
+        cardPosition += "right ";
       }
       if (wordRef.current.getBoundingClientRect().top <= 380) {
-        tmp += "bottom ";
+        cardPosition += "bottom ";
       } else {
-        tmp += "top ";
+        cardPosition += "top ";
       }
     }
-    return tmp;
+    return cardPosition;
   };
 
   return (
@@ -50,10 +50,12 @@ const WordPopup: React.FC<Props> = ({
             {role !== "card" && (
               <button
                 style={{
-                  marginTop: "20px",
-                  marginBottom: "20px",
+                  margin: "20px 0",
                 }}
-                onClick={() => setVisible && setVisible(false)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (setVisible) setVisible(false);
+                }}
               >
                 Закрыть окно
               </button>
@@ -80,7 +82,7 @@ const WordPopup: React.FC<Props> = ({
                     {` ${warodaiArticle.wordReadings.kana} | ${warodaiArticle.wordReadings.kiriji} `}
                   </div>
                   {warodaiArticle.meanings.map((meaning, i, arr) => (
-                    <>
+                    <Fragment key={uuid()}>
                       <div className="word-card__meanings">
                         <span
                           key={uuid()}
@@ -104,7 +106,7 @@ const WordPopup: React.FC<Props> = ({
                           ))}
                         </div>
                       )}
-                    </>
+                    </Fragment>
                   ))}
 
                   {warodaiArticle.derivatives.length > 0 && (

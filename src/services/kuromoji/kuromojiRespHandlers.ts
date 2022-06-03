@@ -28,66 +28,11 @@ export const kuromojiFilterHandler = (
   );
 };
 
-export const setDefaultConjugation = (resp: IKuromojiArticle[]) => {
-  return resp.map((kuromojiArticle: IKuromojiArticle) => {
-    return {
-      ...kuromojiArticle,
-      defaultReading: kuromojiConjugationHandler(
-        toHiragana(kuromojiArticle.reading),
-        kuromojiArticle.conjugated_type,
-        kuromojiArticle
-      ),
-    };
-  });
-};
-
-export const kuromojiConjugationHandler = (
-  word: IKuromojiArticle["reading"],
-  conjugated_type: IKuromojiArticle["conjugated_type"],
-  article: IKuromojiArticle
-): string => {
-  switch (true) {
-    //動詞　- verb
-    case conjugated_type.includes("五段・ガ行"):
-      return conjugated_type.substring(0, word.length - 1) + "グ";
-    case conjugated_type.includes("五段・カ行"):
-      return word.substring(0, word.length - 1) + "ぐ";
-    case conjugated_type.includes("五段・サ行"):
-      return word.substring(0, word.length - 1) + "す";
-    case conjugated_type.includes("五段・タ行"):
-      return word.substring(0, word.length - 1) + "つ";
-    case conjugated_type.includes("五段・ナ行"):
-      return word.substring(0, word.length - 1) + "ぬ";
-    case conjugated_type.includes("五段・バ行"):
-      return word.substring(0, word.length - 1) + "ぶ";
-    case conjugated_type.includes("五段・マ行"):
-      return word.substring(0, word.length - 1) + "む";
-    case conjugated_type.includes("五段・ラ行"):
-      return word.substring(0, word.length - 1) + "る";
-    case conjugated_type.includes("五段・ワ行"):
-      return word.substring(0, word.length - 1) + "う";
-
-    case conjugated_type.includes("一段") &&
-      article.conjugated_form !== "基本形":
-      return word + "る";
-
-    case conjugated_type.includes("サ変・スル"):
-      return "する";
-    case conjugated_type.includes("カ変・クル"):
-      return "くる";
-    //形容詞 - adverb
-    case conjugated_type.includes("形容詞・イ段"):
-      return word.substring(0, word.length - 1) + "い";
-    default:
-      return word;
-  }
-};
-
 export const setEngWordPos = (
   kuromojiArticles: IKuromojiArticle[]
 ): IKuromojiArticle[] => {
-  let wordPos;
   return kuromojiArticles.map((kuromojiArticle) => {
+    let wordPos;
     switch (kuromojiArticle.pos) {
       case "動詞":
         wordPos = "verb";
@@ -134,8 +79,6 @@ export const setEngWordPos = (
         if (kuromojiArticle.surface_form.includes(letter)) {
           setFurigana.push("|");
         } else {
-          // console.log(letter);
-
           setFurigana.push(letter);
         }
       });
@@ -165,135 +108,57 @@ export const setEngWordPos = (
 };
 
 export const combineVerbHandler = (
-  kuromojiResponse: IKuromojiArticle[]
+  response: IKuromojiArticle[]
 ): IKuromojiArticle[] => {
-  return kuromojiResponse.reduce(
-    (prevValue: Array<IKuromojiArticle>, curr, i, arr) => {
-      let tmp = "";
+  let combinedWords: IKuromojiArticle[] = [];
+  let currentVerb: any = null;
 
-      if (
-        (curr.surface_form !== curr.basic_form && curr.pos === "動詞") ||
-        curr.pos === "形容詞"
-      ) {
-        if (
-          arr[i + 1]?.surface_form === "さ" ||
-          arr[i + 1]?.surface_form === "させ" ||
-          arr[i + 1]?.surface_form === "た" ||
-          arr[i + 1]?.surface_form === "だ" ||
-          arr[i + 1]?.surface_form === "て" ||
-          arr[i + 1]?.surface_form === "で" ||
-          arr[i + 1]?.surface_form === "ない" ||
-          arr[i + 1]?.surface_form === "なく" ||
-          arr[i + 1]?.surface_form === "なかっ" ||
-          arr[i + 1]?.basic_form === "ます" ||
-          arr[i + 1]?.surface_form === "られ" ||
-          arr[i + 1]?.surface_form === "られる" ||
-          arr[i + 1]?.surface_form === "れ" ||
-          arr[i + 1]?.surface_form === "れる" ||
-          arr[i + 1]?.surface_form === "よう" ||
-          arr[i + 1]?.surface_form === "ん" ||
-          arr[i + 1]?.surface_form === "ず" ||
-          arr[i + 1]?.surface_form === "せ" ||
-          arr[i + 1]?.surface_form === "ば"
-        ) {
-          tmp += arr[i + 1]?.surface_form;
-        }
-        if (
-          arr[i + 2]?.basic_form === "なく" ||
-          arr[i + 2]?.surface_form === "た" ||
-          arr[i + 2]?.surface_form === "ん" ||
-          arr[i + 2]?.surface_form === "た" ||
-          arr[i + 2]?.surface_form === "ない" ||
-          arr[i + 2]?.surface_form === "なかっ" ||
-          arr[i + 2]?.surface_form === "ませ" ||
-          arr[i + 2]?.surface_form === "られ" ||
-          arr[i + 2]?.surface_form === "が" ||
-          arr[i + 2]?.surface_form === "て" ||
-          arr[i + 2]?.basic_form === "いる"
-        ) {
-          tmp += arr[i + 2]?.surface_form;
-        }
-        if (
-          arr[i + 3]?.surface_form === "なく" ||
-          arr[i + 3]?.surface_form === "た" ||
-          arr[i + 3]?.surface_form === "ます" ||
-          arr[i + 3]?.surface_form === "ませ" ||
-          arr[i + 3]?.surface_form === "ん" ||
-          arr[i + 3]?.surface_form === "ない" ||
-          arr[i + 3]?.basic_form === "いる"
-        ) {
-          tmp += arr[i + 3]?.surface_form;
-        }
-        if (
-          (arr[i + 4]?.surface_form === "ませ" &&
-            arr[i + 4]?.surface_form === "ん") ||
-          arr[i + 4]?.surface_form === "でし"
-        ) {
-          tmp += arr[i + 4]?.surface_form;
-        }
-        if (
-          arr[i + 5]?.surface_form === "でし" ||
-          arr[i + 5]?.surface_form === "た"
-        ) {
-          tmp += arr[i + 5]?.surface_form;
-        }
-        if (arr[i + 6]?.surface_form === "た") {
-          tmp += arr[i + 6]?.surface_form;
-        }
-      }
+  for (let index = 0; index <= response.length - 1; index++) {
+    const word = response[index];
+    let isCanAdd = true;
+    if (
+      (word.conjugated_form !== "基本形" &&
+        word.pos === "動詞" &&
+        word?.pos_detail_1 === "自立") ||
+      word.pos === "形容詞" ||
+      word.conjugated_form === "連用タ接続"
+    ) {
+      currentVerb = word;
+      isCanAdd = false;
+    }
 
-      if (curr.pos_detail_1 === "非自立" && curr.surface_form !== "もの") {
-        return prevValue;
-      }
+    if (
+      currentVerb &&
+      (word.pos === "助詞" ||
+        word.pos === "助動詞" ||
+        word.pos_detail_2 === "助動詞語幹" ||
+        word.pos_detail_1 === "非自立" ||
+        word.pos_detail_1 === "接尾") &&
+      word.pos_detail_1 !== "係助詞" &&
+      word.pos_detail_1! !== "副詞化" &&
+      word.pos_detail_1! !== "格助詞" &&
+      word.pos_detail_1! !== "連体化" &&
+      word.pos_detail_1! !== "終助詞" &&
+      word.conjugated_form !== "連用タ接続" &&
+      word.conjugated_form !== "体言接続" &&
+      word.conjugated_type !== "特殊・デス" &&
+      // word.surface_form !== "が" &&
+      word.pos !== "名詞"
+    ) {
+      currentVerb.surface_form += word.surface_form;
+      isCanAdd = false;
+    }
 
-      if (
-        curr.pos === "助動詞" &&
-        arr[i - 1]?.pos_detail_1 !== "係助詞" &&
-        curr.conjugated_type === "特殊・ナイ"
-      ) {
-        console.log(curr);
-        return prevValue;
-      }
+    if (index === response.length - 1 && currentVerb) {
+      combinedWords.push(currentVerb);
+    }
 
-      if (
-        (tmp.includes("てい") &&
-          curr?.basic_form === "いる" &&
-          curr.pos_detail_1 === "非自立" &&
-          curr.pos !== "名詞") ||
-        (arr[i - 1]?.basic_form === "いる" && curr.surface_form === "ます") ||
-        (curr.surface_form === "せ" && curr.pos_detail_1 === "接尾") ||
-        (curr.pos_detail_1 === "非自立" &&
-          curr.pos_detail_2 !== "形容動詞語幹" &&
-          curr.pos !== "動詞" &&
-          curr.surface_form !== "こと" &&
-          curr.surface_form !== "もの") ||
-        (curr.pos === "名詞" && curr.pos_detail_1 === "接尾") ||
-        (curr.pos === "助動詞" && curr.conjugated_type === "特殊・タ")
-      ) {
-        return prevValue;
-      }
-
-      if (
-        curr.surface_form !== "て" &&
-        curr.conjugated_type !== "特殊・マス" &&
-        curr.conjugated_form !== "連用ニ接続" &&
-        // curr.pos_detail_1 !== "接尾" &&
-        curr.basic_form !== "られる" &&
-        curr.basic_form !== "れる" &&
-        curr.surface_form !== "せた" &&
-        curr.surface_form !== "せて" &&
-        curr.conjugated_type !== "不変化型" &&
-        arr[i - 1]?.surface_form !== "がない"
-      ) {
-        return prevValue.concat([
-          {
-            ...curr,
-            surface_form: curr.surface_form + tmp,
-          },
-        ]);
-      }
-      return prevValue;
-    },
-    []
-  );
+    if (isCanAdd) {
+      currentVerb && currentVerb.word_id && combinedWords.push(currentVerb);
+      combinedWords.push(word);
+      currentVerb = null;
+    }
+  }
+  console.log(combinedWords);
+  return combinedWords;
 };

@@ -1,19 +1,13 @@
 import "./WordCards.scss";
 import {useSelector} from "react-redux";
-import {
-  selectKuromojidResponseWithEngPos,
-  selectKuromojiFilteredResponse,
-} from "../../store/kuromojiReducer/contracts/selectors";
+import {selectKuromojiResponse} from "../../store/kuromojiReducer/contracts/selectors";
 import {v4 as uuid} from "uuid";
 import {useRef, useState} from "react";
 import WordPopup from "../WordPopup/WordPopup";
 import _ from "underscore";
 
 function WordCards() {
-  const kuromojiArticles = useSelector(
-    selectKuromojidResponseWithEngPos,
-    _.isEqual
-  );
+  const kuromojiArticles = useSelector(selectKuromojiResponse, _.isEqual);
 
   //pagination
 

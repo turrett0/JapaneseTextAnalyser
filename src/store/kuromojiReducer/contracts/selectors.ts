@@ -1,29 +1,9 @@
 import {IRootState} from "../..";
-import {
-  combineVerbHandler,
-  kuromojiFilterHandler,
-  setEngWordPos,
-} from "../../../services/kuromoji/kuromojiRespHandlers";
 import {KuromojiStore} from "./state";
 
-export const selectKuromojiFilteredResponse = (
-  state: IRootState
-): KuromojiStore["kuromojiResponse"] =>
-  kuromojiFilterHandler(state.kuromojiReducer.kuromojiResponse);
-
-export const selectKuromojidResponseWithEngPos = (
-  state: IRootState
-): KuromojiStore["kuromojiResponse"] =>
-  combineVerbHandler(setEngWordPos(state.kuromojiReducer.kuromojiResponse));
-
-export const selectRawKuromojiResponse = (
+export const selectKuromojiResponse = (
   state: IRootState
 ): KuromojiStore["kuromojiResponse"] => state.kuromojiReducer.kuromojiResponse;
-
-export const selectKuromojiResponseWithCombineVerbs = (
-  state: IRootState
-): KuromojiStore["kuromojiResponse"] =>
-  combineVerbHandler(state.kuromojiReducer.kuromojiResponse);
 
 export const selectKuromojiLoading = (
   state: IRootState

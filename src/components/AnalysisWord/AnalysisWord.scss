@@ -1,4 +1,4 @@
-@import "../../../App.scss";
+@import "../../App.scss";
 
 .word {
   padding-top: 7px;
@@ -67,6 +67,9 @@ button {
   }
   &.aux {
     color: green;
+  }
+  &.exclamation {
+    color: #e79bff;
   }
 }
 

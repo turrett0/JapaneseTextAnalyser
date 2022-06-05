@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from "react";
 import "./TextAnalysis.scss";
 import {useSelector} from "react-redux";
-import AnalysisWord from "./TextAnalysisWord/AnalysisWord";
+import AnalysisWord from "../../components/AnalysisWord/AnalysisWord";
 import {v4 as uuid} from "uuid";
 import _ from "underscore";
 import TextArea from "../../components/TextArea/TextArea";
 import ToolsMenu from "../../components/ToolsMenu/ToolsMenu";
 import {
   selectCurrentText,
-  selectKuromojidResponseWithEngPos,
+  selectKuromojiResponse,
   selectKuromojiLoading,
   selectPageMode,
 } from "../../store/kuromojiReducer/contracts/selectors";
@@ -26,10 +26,7 @@ const TextAnalysis: React.FC = () => {
   const currentText = useSelector(selectCurrentText);
   const pageMode = useSelector(selectPageMode);
   const loadingState = useSelector(selectKuromojiLoading);
-  const kuromojiArticles = useSelector(
-    selectKuromojidResponseWithEngPos,
-    _.isEqual
-  );
+  const kuromojiArticles = useSelector(selectKuromojiResponse, _.isEqual);
 
   const keyHandler = (e: KeyboardEvent) => {
     if (

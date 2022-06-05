@@ -1,12 +1,14 @@
 import {IKuromojiArticle} from "../../store/kuromojiReducer/contracts/state";
+import {kuromojiFilterHandler} from "../kuromoji/kuromojiRespHandlers";
 
 export const csvPrepare = (
   kuromojiResponse: IKuromojiArticle[],
   filename: string
 ) => {
+  const filteredResponse = kuromojiFilterHandler(kuromojiResponse);
   let rows: Array<Array<string>> = [];
 
-  kuromojiResponse.forEach((item: IKuromojiArticle) => {
+  filteredResponse.forEach((item: IKuromojiArticle) => {
     rows.push([
       item.basic_form,
       item.reading,

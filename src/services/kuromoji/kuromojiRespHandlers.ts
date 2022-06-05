@@ -142,15 +142,16 @@ export const combineVerbHandler = (
       word.conjugated_form !== "連用タ接続" &&
       word.conjugated_form !== "体言接続" &&
       word.conjugated_type !== "特殊・デス" &&
-      // word.surface_form !== "が" &&
       word.pos !== "名詞"
     ) {
       currentVerb.surface_form += word.surface_form;
+
       isCanAdd = false;
     }
 
     if (index === response.length - 1 && currentVerb) {
       combinedWords.push(currentVerb);
+      currentVerb = null;
     }
 
     if (isCanAdd) {

@@ -19,19 +19,6 @@ export interface IKuromojiArticle {
   kanjiCount?: number;
 }
 
-export enum wordPos {
-  "動詞" = "verb",
-  "名詞" = "noun",
-  "形容詞" = "adjective",
-  "副詞" = "adverb",
-  "接続詞" = "conjuction",
-  "助詞" = "particle",
-  "連体詞" = "prenominal",
-  "助動詞" = "aux",
-  "特殊・デス" = "desu",
-  "感動詞" = " exclamation",
-}
-
 export interface IWarodaiArticle {
   word: Array<string>;
   wordReadings: {

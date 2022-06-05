@@ -3,8 +3,8 @@ import "./ToolsMenu.scss";
 import {useSelector} from "react-redux";
 import useActions from "../../hooks/useActions";
 import {
-  selectKuromojiFilteredResponse,
   selectKuromojiLoading,
+  selectKuromojiResponse,
   selectPageMode,
 } from "../../store/kuromojiReducer/contracts/selectors";
 import {
@@ -37,7 +37,7 @@ const ToolsMenu: React.FC<Props> = ({
   const {SetPageMode} = useActions();
   const currentPageMode = useSelector(selectPageMode);
   const loading = useSelector(selectKuromojiLoading);
-  const kuromojiResponse = useSelector(selectKuromojiFilteredResponse);
+  const kuromojiResponse = useSelector(selectKuromojiResponse);
 
   return (
     <div className="tools-menu">

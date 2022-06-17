@@ -1,5 +1,6 @@
 # JAPANESE TEXT ANALYSER (JTA) APP 
-  Chat to talk with stranger in specific room or in private session
+  Chat to talk with stranger in specific room or in private session.
+  
   DEMO VERSION: https://turrett0.github.io/JapaneseTextAnalyser/
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

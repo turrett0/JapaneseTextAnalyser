@@ -1,5 +1,5 @@
 # JAPANESE TEXT ANALYSER (JTA) APP 
-  Chat to talk with stranger in specific room or in private session.
+  Learn Japanese better with Grammatical Word Parser
   
   DEMO VERSION: https://turrett0.github.io/JapaneseTextAnalyser/
 

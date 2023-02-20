@@ -1,9 +1,6 @@
 # JAPANESE TEXT ANALYSER (JTA) APP 
   Learn Japanese better with Grammatical Word Parser
-  
-  DEMO VERSION: https://turrett0.github.io/JapaneseTextAnalyser/
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Features
 
